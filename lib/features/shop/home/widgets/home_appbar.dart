@@ -22,10 +22,8 @@ class CustomHomeAppBar extends StatelessWidget {
                 .apply(color: Colors.white),
           ),
           Text(
-            'Nawadurga Fruits Store',
-            style: Theme.of(context)
-                .textTheme
-                .headlineSmall!
+            'Nawadurga Fruits',
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 24)
                 .apply(color: Colors.white),
           )
         ],

@@ -38,6 +38,7 @@ dependencies:
   flutter_otp_text_field: ^1.1.3+2
   gettext: ^1.2.0
   get: ^4.6.6
+  readmore: ^3.0.0
 
 dev_dependencies:
   flutter_test:

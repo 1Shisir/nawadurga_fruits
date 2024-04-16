@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:navadurga_fruits/features/shop/home/home_screen.dart';
+import 'package:navadurga_fruits/features/shop/store/store.dart';
 
 class NavigationMenu extends StatelessWidget {
   const NavigationMenu({super.key});
@@ -18,7 +19,7 @@ class NavigationMenu extends StatelessWidget {
           onDestinationSelected: (index) =>
               controller.selectedIndex.value = index,
           backgroundColor: Colors.white,
-          indicatorColor: Colors.black.withOpacity(0.1),
+          indicatorColor: Colors.green.withOpacity(0.3),
           destinations: const [
             NavigationDestination(icon: Icon(Icons.home), label: 'Home'),
             NavigationDestination(icon: Icon(Icons.shop), label: 'Store'),
@@ -39,9 +40,7 @@ class NavigationController extends GetxController {
 
   final screens = [
     const HomeScreen(),
-    Container(
-      color: Colors.red,
-    ),
+    const StoreScreen(),
     Container(
       color: Colors.amberAccent,
     ),
