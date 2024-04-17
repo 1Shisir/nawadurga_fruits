@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:get/get.dart';
-import 'package:navadurga_fruits/features/authentication/screens/login/login.dart';
 import 'package:navadurga_fruits/navigation_menu.dart';
 import 'package:navadurga_fruits/utils/consts/sizes.dart';
 
@@ -18,7 +17,7 @@ class OtpVerificationScreen extends StatelessWidget {
           style: TextStyle(fontWeight: FontWeight.bold, color: Colors.green),
         ),
         leading: IconButton(
-            onPressed: () => Get.offAll(const LoginScreen()),
+            onPressed: () => Get.back(),
             icon: const Icon(Icons.arrow_back_ios)),
       ),
       body: Padding(

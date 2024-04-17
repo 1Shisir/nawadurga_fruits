@@ -18,7 +18,7 @@ class CartItem extends StatelessWidget {
               'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR2HBdnzEwiLu9EZonMRGtc4PoRlKmXpU2QnA&s',
           height: 60,
           width: 60,
-          backgroundColor: Colors.white,
+          backgroundColor: Colors.grey,
           isNetworkImage: true,
         ),
         SizedBox(
