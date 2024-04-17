@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:navadurga_fruits/features/authentication/screens/otp_verification/otp_verification_screen.dart';
 import 'package:navadurga_fruits/navigation_menu.dart';
 import 'package:navadurga_fruits/utils/consts/sizes.dart';
 
@@ -13,19 +12,9 @@ class LoginFooter extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        //login
-
-        SizedBox(
-          width: double.infinity,
-          child: ElevatedButton(
-              onPressed: () => Get.to(() => const OtpVerificationScreen()),
-              child: const Text('LOGIN')),
-        ),
         const SizedBox(
           height: CustomSizes.spaceBtwnSections,
         ),
-        // else
-
         Row(
           children: [
             const Text(

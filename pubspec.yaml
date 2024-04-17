@@ -39,6 +39,8 @@ dependencies:
   gettext: ^1.2.0
   get: ^4.6.6
   readmore: ^3.0.0
+  firebase_core: ^2.30.0
+  firebase_auth: ^4.19.2
 
 dev_dependencies:
   flutter_test:

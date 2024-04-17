@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "175673775936",
+    "project_id": "nawadurgafruits",
+    "storage_bucket": "nawadurgafruits.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:175673775936:android:da87f21ac5ba7af3938ca5",
+        "android_client_info": {
+          "package_name": "com.example.navadurga_fruits"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBnBjadYzDqHz0s_xZevAOxM04JJOv3y9A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

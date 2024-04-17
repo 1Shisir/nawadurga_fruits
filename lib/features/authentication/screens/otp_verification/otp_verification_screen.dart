@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:get/get.dart';
-import 'package:navadurga_fruits/navigation_menu.dart';
+import 'package:navadurga_fruits/features/authentication/controllers/otp_controller.dart';
 import 'package:navadurga_fruits/utils/consts/sizes.dart';
 
 class OtpVerificationScreen extends StatelessWidget {
@@ -9,6 +9,8 @@ class OtpVerificationScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(OTPController());
+    var otp;
     return SafeArea(
         child: Scaffold(
       appBar: AppBar(
@@ -40,6 +42,10 @@ class OtpVerificationScreen extends StatelessWidget {
               fillColor: Colors.black.withOpacity(0.1),
               filled: true,
               numberOfFields: 6,
+              onSubmit: (code) {
+                otp = code;
+                controller.verifyOTP(otp);
+              },
             ),
             const SizedBox(
               height: CustomSizes.spaceBtwnSections,
@@ -49,7 +55,9 @@ class OtpVerificationScreen extends StatelessWidget {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                  onPressed: () => Get.to(() => const NavigationMenu()),
+                  onPressed: () {
+                    OTPController.instance.verifyOTP(otp);
+                  },
                   child: const Text('Next')),
             ),
 
