@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:navadurga_fruits/features/shop/cart/cart_screen.dart';
 
 class CustomCartCounterIcon extends StatelessWidget {
   const CustomCartCounterIcon({
@@ -17,7 +19,7 @@ class CustomCartCounterIcon extends StatelessWidget {
     return Stack(
       children: [
         IconButton(
-          onPressed: () {},
+          onPressed: () => Get.to(() => const CartScreen()),
           icon: const Icon(Icons.shopping_bag_outlined),
           color: iconColor,
         ),

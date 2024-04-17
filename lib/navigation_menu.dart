@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:navadurga_fruits/features/shop/cart/cart_screen.dart';
 import 'package:navadurga_fruits/features/shop/home/home_screen.dart';
 import 'package:navadurga_fruits/features/shop/store/store.dart';
 
@@ -41,9 +42,7 @@ class NavigationController extends GetxController {
   final screens = [
     const HomeScreen(),
     const StoreScreen(),
-    Container(
-      color: Colors.amberAccent,
-    ),
+    const CartScreen(),
     Container(
       color: Colors.blue,
     ),

@@ -30,12 +30,12 @@ class AddAndRemoveButton extends StatelessWidget {
           width: CustomSizes.spaceBtwnItems,
         ),
         const CircularIcon(
-          iCon: Icons.add,
+          iCon: Icons.add_circle_outline_sharp,
           width: 32,
           height: 32,
           size: CustomSizes.md,
-          color: Colors.white,
-          backgroundColor: Colors.green,
+          color: Colors.black,
+          backgroundColor: Colors.white,
         ),
       ],
     );
