@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:navadurga_fruits/features/personalization/profile/profile.dart';
 import 'package:navadurga_fruits/features/shop/cart/cart_screen.dart';
 import 'package:navadurga_fruits/features/shop/home/home_screen.dart';
 import 'package:navadurga_fruits/features/shop/store/store.dart';
@@ -43,8 +44,6 @@ class NavigationController extends GetxController {
     const HomeScreen(),
     const StoreScreen(),
     const CartScreen(),
-    Container(
-      color: Colors.amber,
-    ),
+    const ProfileScreen(),
   ];
 }

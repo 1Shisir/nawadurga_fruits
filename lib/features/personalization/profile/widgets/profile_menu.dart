@@ -33,7 +33,8 @@ class ProfileMenuWidget extends StatelessWidget {
       ),
       title: Text(
         title,
-        style: Theme.of(context).textTheme.bodyMedium?.apply(color: textColor),
+        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)
+            .apply(color: textColor),
       ),
       trailing: endIcon
           ? Container(

@@ -22,6 +22,23 @@ class LoginForm extends StatelessWidget {
             SizedBox(
               width: double.infinity,
               child: TextFormField(
+                validator: (value) => Validators.validateEmpty(value),
+                controller: controller.username,
+                decoration: const InputDecoration(
+                  labelText: 'Full name',
+                  prefixIcon: Icon(
+                    Icons.account_box_sharp,
+                    size: 24,
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: CustomSizes.spaceBtwninputField,
+            ),
+            SizedBox(
+              width: double.infinity,
+              child: TextFormField(
                 validator: (value) => Validators.validatePhoneNumber(value),
                 controller: controller.phoneNo,
                 decoration: const InputDecoration(

@@ -15,7 +15,7 @@ class LoginHeader extends StatelessWidget {
       children: [
         Stack(alignment: Alignment.center, children: [
           Container(
-            height: MediaQuery.of(context).size.height * 0.4,
+            height: MediaQuery.of(context).size.height * 0.36,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8),
               color: const Color.fromARGB(255, 181, 226, 156),

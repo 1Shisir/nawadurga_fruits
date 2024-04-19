@@ -8,9 +8,20 @@ class AuthenticationRepository extends GetxController {
   final _auth = FirebaseAuth.instance;
   var verificationId = ''.obs;
 
+  //format phone number
+  String formatPhoneNumber(String countryCode, String phoneNumber) {
+    String cleanedPhoneNumber = phoneNumber.replaceAll(RegExp(r'\D+'), '');
+    return '+$countryCode$cleanedPhoneNumber';
+  }
+
+  //phone verification
+
   Future<void> phoneAuthentication(String phoneNo) async {
+    String countryCode = '977'; // Nepal country code
+    String formattedPhoneNumber = formatPhoneNumber(countryCode, phoneNo);
+
     await _auth.verifyPhoneNumber(
-      phoneNumber: phoneNo,
+      phoneNumber: formattedPhoneNumber,
       verificationCompleted: (credential) async {
         await _auth.signInWithCredential(credential);
       },

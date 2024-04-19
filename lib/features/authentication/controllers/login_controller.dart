@@ -6,6 +6,7 @@ class LoginController extends GetxController {
   static LoginController get instance => Get.find();
 
   final phoneNo = TextEditingController();
+  final username = TextEditingController();
 
   void phoneAuthentication(String phoneNo) {
     AuthenticationRepository.instance.phoneAuthentication(phoneNo);

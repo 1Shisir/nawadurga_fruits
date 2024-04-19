@@ -25,7 +25,7 @@ class LoginScreen extends StatelessWidget {
 
                 //footer
                 SizedBox(
-                  height: CustomSizes.spaceBtwnSections,
+                  height: CustomSizes.spaceBtwnItems / 2.6,
                 ),
                 LoginFooter()
               ],

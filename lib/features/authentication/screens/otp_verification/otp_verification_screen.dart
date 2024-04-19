@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 import 'package:navadurga_fruits/features/authentication/controllers/otp_controller.dart';
 import 'package:navadurga_fruits/utils/consts/sizes.dart';
 
+import '../../../../navigation_menu.dart';
+
 class OtpVerificationScreen extends StatelessWidget {
   const OtpVerificationScreen({super.key});
 
@@ -57,6 +59,7 @@ class OtpVerificationScreen extends StatelessWidget {
               child: ElevatedButton(
                   onPressed: () {
                     OTPController.instance.verifyOTP(otp);
+                    Get.to(() => const NavigationMenu());
                   },
                   child: const Text('Next')),
             ),
