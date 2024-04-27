@@ -1,5 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
+import 'package:navadurga_fruits/features/authentication/screens/login/login.dart';
+import 'package:navadurga_fruits/navigation_menu.dart';
 
 class AuthenticationRepository extends GetxController {
   static AuthenticationRepository get instance => Get.find();
@@ -7,6 +9,24 @@ class AuthenticationRepository extends GetxController {
   //variables
   final _auth = FirebaseAuth.instance;
   var verificationId = ''.obs;
+  late final Rx<User?> firebaseUser;
+
+  //get authorized user data
+  User? get authUser => _auth.currentUser;
+
+  @override
+  void onReady() {
+    firebaseUser = Rx<User?>(_auth.currentUser);
+    firebaseUser.bindStream(_auth.userChanges());
+    ever(firebaseUser, _setInitialScreen);
+  }
+
+  //screen redirect
+  _setInitialScreen(User? user) {
+    user == null
+        ? Get.offAll(() => const LoginScreen())
+        : Get.offAll(() => const NavigationMenu());
+  }
 
   //format phone number
   String formatPhoneNumber(String countryCode, String phoneNumber) {
@@ -19,7 +39,6 @@ class AuthenticationRepository extends GetxController {
   Future<void> phoneAuthentication(String phoneNo) async {
     String countryCode = '977'; // Nepal country code
     String formattedPhoneNumber = formatPhoneNumber(countryCode, phoneNo);
-
     await _auth.verifyPhoneNumber(
       phoneNumber: formattedPhoneNumber,
       verificationCompleted: (credential) async {
@@ -46,7 +65,12 @@ class AuthenticationRepository extends GetxController {
     var credentials = await _auth.signInWithCredential(
         PhoneAuthProvider.credential(
             verificationId: verificationId.value, smsCode: otp));
-
     return credentials.user != null ? true : false;
+  }
+
+  //sign out
+  Future<void> signOut() async {
+    await _auth.signOut();
+    Get.offAll(() => const LoginScreen());
   }
 }

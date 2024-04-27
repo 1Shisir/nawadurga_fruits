@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:navadurga_fruits/features/authentication/screens/otp_verification/otp_verification_screen.dart';
 import 'package:navadurga_fruits/utils/consts/sizes.dart';
 
 import '../../../../../utils/validators/validators.dart';
 import '../../../controllers/login_controller.dart';
+import '../../otp_verification/otp_verification_screen.dart';
 
 class LoginForm extends StatelessWidget {
   const LoginForm({

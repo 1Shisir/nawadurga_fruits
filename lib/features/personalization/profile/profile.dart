@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:navadurga_fruits/common/widgets/appbar/appbar.dart';
 import 'package:navadurga_fruits/common/widgets/images/circular_image.dart';
+import 'package:navadurga_fruits/data/repositories/authentication/authentication_repository.dart';
 import 'package:navadurga_fruits/features/personalization/profile/widgets/profile_menu.dart';
 import 'package:navadurga_fruits/utils/consts/sizes.dart';
 
@@ -18,7 +19,7 @@ class ProfileScreen extends StatelessWidget {
         showbackArrow: true,
         actions: [
           IconButton(
-              onPressed: () {},
+              onPressed: () => AuthenticationRepository.instance.signOut(),
               icon: const Icon(
                 Icons.login_outlined,
                 size: 32,
