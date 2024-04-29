@@ -4,7 +4,6 @@ import 'package:navadurga_fruits/utils/consts/sizes.dart';
 
 import '../../../../../utils/validators/validators.dart';
 import '../../../controllers/login_controller.dart';
-import '../../otp_verification/otp_verification_screen.dart';
 
 class LoginForm extends StatelessWidget {
   const LoginForm({
@@ -13,10 +12,9 @@ class LoginForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final formKey = GlobalKey<FormState>();
     final controller = Get.put(LoginController());
     return Form(
-        key: formKey,
+        key: controller.loginFormKey,
         child: Column(
           children: [
             SizedBox(
@@ -56,13 +54,7 @@ class LoginForm extends StatelessWidget {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                  onPressed: () {
-                    if (formKey.currentState!.validate()) {
-                      LoginController.instance
-                          .phoneAuthentication(controller.phoneNo.text.trim());
-                      Get.to(() => const OtpVerificationScreen());
-                    }
-                  },
+                  onPressed: () => controller.signup(),
                   child: const Text('LOGIN')),
             ),
           ],

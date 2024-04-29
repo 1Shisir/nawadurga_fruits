@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:navadurga_fruits/common/widgets/texts/price_title_text.dart';
 import 'package:navadurga_fruits/common/widgets/texts/product_title_text.dart';
-import 'package:navadurga_fruits/features/shop/product_details/widget/product_detail_image.dart';
+import 'package:navadurga_fruits/features/shop/models/product_model.dart';
+import 'package:navadurga_fruits/features/shop/screens/product_details/widget/product_detail_image.dart';
 import 'package:readmore/readmore.dart';
 
-import '../../../common/widgets/texts/section_heading.dart';
-import '../../../utils/consts/sizes.dart';
+import '../../../../common/widgets/texts/section_heading.dart';
+import '../../../../utils/consts/sizes.dart';
 import 'widget/product_add_to_cart_widget.dart';
 
 class ProductDetail extends StatelessWidget {
-  const ProductDetail({super.key});
+  const ProductDetail({super.key, required this.product});
+  final ProductModel product;
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +20,9 @@ class ProductDetail extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(children: [
           //image
-          const CustomProductImage(),
+          CustomProductImage(
+            product: ProductModel.empty(),
+          ),
 
           //Product Details
 
@@ -31,19 +35,19 @@ class ProductDetail extends StatelessWidget {
               children: [
                 const SizedBox(height: CustomSizes.spaceBtwnItems),
 
-                const Column(
+                Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     //title
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        ProductTitleText(title: 'Fresh apples ', maxlines: 1),
+                        ProductTitleText(title: product.name, maxlines: 1),
                       ],
                     ),
-                    SizedBox(height: CustomSizes.spaceBtwnItems),
+                    const SizedBox(height: CustomSizes.spaceBtwnItems),
                     //price
-                    ProductPriceText(price: '35'),
+                    ProductPriceText(price: product.price.toString()),
                   ],
                 ),
 

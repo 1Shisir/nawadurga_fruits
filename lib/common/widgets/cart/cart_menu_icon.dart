@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:navadurga_fruits/features/shop/cart/cart_screen.dart';
+import 'package:navadurga_fruits/features/shop/screens/cart/cart_screen.dart';
 
 class CustomCartCounterIcon extends StatelessWidget {
   const CustomCartCounterIcon({

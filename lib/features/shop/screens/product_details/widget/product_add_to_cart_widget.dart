@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../../../common/widgets/icons/circular_icon.dart';
-import '../../../../utils/consts/sizes.dart';
+import '../../../../../common/widgets/icons/circular_icon.dart';
+import '../../../../../utils/consts/sizes.dart';
 
 class BottomAddToCart extends StatelessWidget {
   const BottomAddToCart({super.key});

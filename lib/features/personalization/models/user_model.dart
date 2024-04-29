@@ -6,11 +6,12 @@ class UserModel {
   final String phoneNo;
   String profilePicture;
 
-  UserModel(
-      {required this.name,
-      required this.phoneNo,
-      required this.id,
-      required this.profilePicture});
+  UserModel({
+    required this.name,
+    required this.phoneNo,
+    required this.id,
+    required this.profilePicture,
+  });
 
   static UserModel empty() =>
       UserModel(name: '', phoneNo: '', id: '', profilePicture: '');
