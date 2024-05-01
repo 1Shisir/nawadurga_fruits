@@ -1,4 +1,6 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:navadurga_fruits/common/widgets/shimmer/shimmer.dart';
 
 class CustomRoundedImage extends StatelessWidget {
   const CustomRoundedImage({
@@ -44,12 +46,21 @@ class CustomRoundedImage extends StatelessWidget {
           borderRadius: appplyImageRadius
               ? BorderRadius.circular(borderRadius)
               : BorderRadius.zero,
-          child: Image(
-            image: isNetworkImage
-                ? NetworkImage(imageUrl)
-                : AssetImage(imageUrl) as ImageProvider,
-            fit: fit,
-          ),
+          child: isNetworkImage
+              ? CachedNetworkImage(
+                  imageUrl: imageUrl,
+                  fit: fit,
+                  progressIndicatorBuilder: (context, url, progress) =>
+                      CustomShimmerEffect(
+                          width: width ?? double.infinity,
+                          height: height ?? 158,
+                          radius: 15),
+                  errorWidget: (context, url, error) => const Icon(Icons.error),
+                )
+              : Image(
+                  image: AssetImage(imageUrl),
+                  fit: fit,
+                ),
         ),
       ),
     );

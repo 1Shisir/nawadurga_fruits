@@ -21,7 +21,7 @@ class ProductDetail extends StatelessWidget {
         child: Column(children: [
           //image
           CustomProductImage(
-            product: ProductModel.empty(),
+            product: product,
           ),
 
           //Product Details
@@ -66,16 +66,16 @@ class ProductDetail extends StatelessWidget {
                 const CustomSectionHeading(
                     showActionButton: false, title: 'Description'),
                 const SizedBox(height: CustomSizes.spaceBtwnItems),
-                const ReadMoreText(
-                  'This is the description of the product.This contains show more and show less properties which is very useful if the description is too lengthy!',
+                ReadMoreText(
+                  product.description ?? '',
                   trimLines: 2,
                   trimMode: TrimMode.Line,
                   trimCollapsedText: '  Show more',
                   trimExpandedText: '  Less',
-                  moreStyle:
-                      TextStyle(fontSize: 16, fontWeight: FontWeight.w800),
-                  lessStyle:
-                      TextStyle(fontSize: 16, fontWeight: FontWeight.w800),
+                  moreStyle: const TextStyle(
+                      fontSize: 16, fontWeight: FontWeight.w800),
+                  lessStyle: const TextStyle(
+                      fontSize: 16, fontWeight: FontWeight.w800),
                 ),
               ],
             ),

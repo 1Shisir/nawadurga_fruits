@@ -1,4 +1,6 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:navadurga_fruits/common/widgets/shimmer/shimmer.dart';
 import '../../../utils/consts/sizes.dart';
 
 class CustomCircularImage extends StatelessWidget {
@@ -34,13 +36,23 @@ class CustomCircularImage extends StatelessWidget {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(100),
         child: Center(
-          child: Image(
-            image: isNetworkImage
-                ? NetworkImage(image)
-                : AssetImage(image) as ImageProvider,
-            color: overlayColor,
-            fit: fit,
-          ),
+          child: isNetworkImage
+              ? CachedNetworkImage(
+                  imageUrl: image,
+                  fit: fit,
+                  color: overlayColor,
+                  progressIndicatorBuilder: (context, url, downloadProgress) =>
+                      const CustomShimmerEffect(
+                          width: 55, height: 55, radius: 55),
+                  errorWidget: (context, url, error) => const Icon(Icons.error),
+                )
+              : Image(
+                  image: isNetworkImage
+                      ? NetworkImage(image)
+                      : AssetImage(image) as ImageProvider,
+                  color: overlayColor,
+                  fit: fit,
+                ),
         ),
       ),
     );

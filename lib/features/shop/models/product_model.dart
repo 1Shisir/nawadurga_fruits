@@ -6,6 +6,8 @@ class ProductModel {
   final String image;
   final bool? isFeatured;
   final double price;
+  String? description;
+  List<String>? images;
 
   ProductModel({
     this.id,
@@ -13,10 +15,13 @@ class ProductModel {
     required this.image,
     this.isFeatured,
     required this.price,
+    this.description,
+    this.images,
   });
 
   //empty product model
   static ProductModel empty() => ProductModel(
+        description: '',
         name: '',
         price: 0,
         image: '',
@@ -29,6 +34,8 @@ class ProductModel {
       'Image': image,
       'IsFeatured': isFeatured,
       'Price': price,
+      'Description': description,
+      'MoreImages': images,
     };
   }
 
@@ -37,9 +44,14 @@ class ProductModel {
     if (document.data() == null) return ProductModel.empty();
     final data = document.data()!;
     return ProductModel(
-        id: document.id,
-        name: data['Name'] ?? '',
-        image: data['Image'] ?? '',
-        price: double.parse((data['Price'] ?? 0.0).toString()));
+      id: document.id,
+      name: data['Name'] ?? '',
+      image: data['Image'] ?? '',
+      price: double.parse((data['Price'] ?? 0.0).toString()),
+      description: data['Description'] ?? '',
+      images: data['MoreImages'] != null
+          ? List<String>.from(data['MoreImages'])
+          : [],
+    );
   }
 }
