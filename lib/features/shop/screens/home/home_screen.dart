@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_instance/get_instance.dart';
-import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
+import 'package:get/get.dart';
 import 'package:navadurga_fruits/common/widgets/shimmer/vertical_product_shimmer.dart';
 import 'package:navadurga_fruits/common/widgets/texts/section_heading.dart';
 import 'package:navadurga_fruits/features/shop/controllers/product_controller.dart';
@@ -10,6 +8,7 @@ import '../../../../common/widgets/custom_shapes/containers/primary_header_conta
 import '../../../../common/widgets/custom_shapes/containers/search_container.dart';
 import '../../../../common/widgets/products/product_card_vertical.dart';
 import '../../../../utils/consts/sizes.dart';
+import '../all_product/all_products.dart';
 import 'widgets/home_appbar.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -40,9 +39,13 @@ class HomeScreen extends StatelessWidget {
         padding: const EdgeInsets.all(CustomSizes.defaultSpace),
         child: Column(
           children: [
-            const CustomSectionHeading(
-              showActionButton: false,
+            CustomSectionHeading(
               title: 'Featured Products',
+              showActionButton: true,
+              onPressed: () => Get.to(() => AllProductsScreen(
+                    title: 'Featured Products',
+                    futureMethod: controller.fetchAllFeaturedProducts(),
+                  )),
             ),
             const SizedBox(height: CustomSizes.spaceBtwnSections),
 

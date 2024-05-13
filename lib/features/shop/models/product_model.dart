@@ -54,4 +54,21 @@ class ProductModel {
           : [],
     );
   }
+
+  factory ProductModel.fromQuerySnapshot(
+      QueryDocumentSnapshot<Object?> document) {
+    final data = document.data() as Map<String, dynamic>;
+
+    return ProductModel(
+      id: document.id,
+      price: double.parse((data['Price'] ?? 0.0).toString()),
+      isFeatured: data['IsFeatured'] ?? false,
+      description: data['Description'] ?? '',
+      images: data['MoreImages'] != null
+          ? List<String>.from(data['MoreImages'])
+          : [],
+      name: data['Name'] ?? '',
+      image: data['Image'] ?? '',
+    );
+  }
 }

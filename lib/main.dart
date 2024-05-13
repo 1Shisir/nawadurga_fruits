@@ -9,10 +9,11 @@ import 'package:navadurga_fruits/firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  DependencyInjections.init();
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform)
       .then((FirebaseApp value) => Get.put(AuthenticationRepository()));
+
+  DependencyInjections.init();
 
   runApp(const MyApp());
 }
