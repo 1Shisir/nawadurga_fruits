@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../features/shop/models/cart_item_model.dart';
 import '../../../utils/consts/sizes.dart';
 import '../images/circular_image.dart';
 import '../texts/product_title_text.dart';
@@ -6,22 +7,24 @@ import '../texts/product_title_text.dart';
 class CartItem extends StatelessWidget {
   const CartItem({
     super.key,
+    required this.cartItem,
   });
+
+  final CartItemModel cartItem;
 
   @override
   Widget build(BuildContext context) {
-    return const Row(
+    return Row(
       children: [
         ///image
         CustomCircularImage(
-          image:
-              'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR2HBdnzEwiLu9EZonMRGtc4PoRlKmXpU2QnA&s',
+          image: cartItem.image ?? '',
           height: 60,
           width: 60,
-          backgroundColor: Colors.grey,
           isNetworkImage: true,
+          backgroundColor: Colors.white,
         ),
-        SizedBox(
+        const SizedBox(
           width: CustomSizes.spaceBtwnItems,
         ),
 
@@ -32,16 +35,7 @@ class CartItem extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Flexible(
-                  child: ProductTitleText(title: 'Great apples', maxlines: 1)),
-
-              ///attributes
-              Text.rich(TextSpan(children: [
-                TextSpan(
-                  text: 'Weight',
-                  style: TextStyle(fontSize: 14),
-                ),
-                TextSpan(text: '1 kg', style: TextStyle(fontSize: 14)),
-              ]))
+                  child: ProductTitleText(title: cartItem.title, maxlines: 1)),
             ],
           ),
         )

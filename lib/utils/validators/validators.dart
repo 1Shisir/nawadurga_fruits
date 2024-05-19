@@ -20,4 +20,12 @@ class Validators {
 
     return null;
   }
+
+  ///empty textfield validation
+  static String? validateEmptyText(String? fieldname, String? value) {
+    if (value == null || value.isEmpty) {
+      return '$fieldname is required';
+    }
+    return null;
+  }
 }

@@ -6,14 +6,17 @@ import 'package:navadurga_fruits/app.dart';
 import 'package:navadurga_fruits/bindings/dependency_injections.dart';
 import 'package:navadurga_fruits/data/repositories/authentication/authentication_repository.dart';
 import 'package:navadurga_fruits/firebase_options.dart';
+import 'package:navadurga_fruits/utils/local_storage/storage_utility.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  //await GetStorage.init();
+  await CustomLocalStorage.init('cartItems');
+  DependencyInjections.init();
+
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform)
       .then((FirebaseApp value) => Get.put(AuthenticationRepository()));
-
-  DependencyInjections.init();
 
   runApp(const MyApp());
 }

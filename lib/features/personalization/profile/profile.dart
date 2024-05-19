@@ -1,15 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:navadurga_fruits/common/widgets/appbar/appbar.dart';
 import 'package:navadurga_fruits/common/widgets/images/circular_image.dart';
+import 'package:navadurga_fruits/common/widgets/shimmer/shimmer.dart';
 import 'package:navadurga_fruits/data/repositories/authentication/authentication_repository.dart';
 import 'package:navadurga_fruits/features/personalization/profile/widgets/profile_menu.dart';
+import 'package:navadurga_fruits/features/shop/screens/address/addresses.dart';
 import 'package:navadurga_fruits/utils/consts/sizes.dart';
+
+import '../controllers/user_controller.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(UserController());
     return Scaffold(
       appBar: CustomAppBar(
         title: const Text(
@@ -36,18 +42,25 @@ class ProfileScreen extends StatelessWidget {
                 child: Column(
                   children: [
                     Stack(children: [
-                      const CustomCircularImage(
-                        image:
-                            'https://st3.depositphotos.com/15648834/17930/v/450/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg',
-                        isNetworkImage: true,
-                        height: 200,
-                        width: 200,
-                      ),
+                      Obx(() {
+                        final networkImage =
+                            controller.user.value.profilePicture;
+                        return controller.imageUploading.value
+                            ? const CustomShimmerEffect(
+                                width: 160, height: 160, radius: 160)
+                            : CustomCircularImage(
+                                image: networkImage,
+                                width: 160,
+                                height: 160,
+                                isNetworkImage: true,
+                              );
+                      }),
                       Positioned(
                         right: 16,
                         bottom: 16,
                         child: IconButton(
-                            onPressed: () {},
+                            onPressed: () =>
+                                controller.uploadUserProfilePicture(),
                             icon: const Icon(
                               Icons.camera_alt_outlined,
                               color: Colors.green,
@@ -55,16 +68,22 @@ class ProfileScreen extends StatelessWidget {
                             )),
                       ),
                     ]),
-                    const Text(
-                      'Shisir Ghimire',
-                      style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                    ),
-                    const Text(
-                      '9866775698',
-                      style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                    ),
+                    Obx(() {
+                      if (controller.profileLoading.value) {
+                        return const CustomShimmerEffect(
+                          width: 80,
+                          height: 15,
+                          radius: 15,
+                        );
+                      } else {
+                        return Text(
+                          controller.user.value.name,
+                          style: const TextStyle(
+                                  fontSize: 16, fontWeight: FontWeight.bold)
+                              .apply(color: Colors.black),
+                        );
+                      }
+                    }),
                   ],
                 ),
               ),
@@ -74,7 +93,7 @@ class ProfileScreen extends StatelessWidget {
               ProfileMenuWidget(
                   title: 'Shipping address',
                   icon: Icons.location_on_outlined,
-                  onPress: () {}),
+                  onPress: () => Get.to(() => const UserAddressScreen())),
               ProfileMenuWidget(
                   title: 'Order history',
                   icon: Icons.timer_outlined,
@@ -89,7 +108,7 @@ class ProfileScreen extends StatelessWidget {
                   textColor: Colors.red,
                   endIcon: false,
                   icon: Icons.delete_outline_outlined,
-                  onPress: () {}),
+                  onPress: () => controller.deleteAccountWarningPopup()),
             ],
           ),
         ),

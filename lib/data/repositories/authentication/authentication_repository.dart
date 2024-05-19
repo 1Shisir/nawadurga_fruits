@@ -1,7 +1,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:navadurga_fruits/features/authentication/screens/login/login.dart';
 import 'package:navadurga_fruits/navigation_menu.dart';
+
+import '../../../utils/exceptions/firebase_auth_exceptions.dart';
+import '../../../utils/exceptions/firebase_exceptions.dart';
+import '../../../utils/exceptions/format_exceptions.dart';
+import '../../../utils/exceptions/platform_exceptions.dart';
+import '../user/user_repository.dart';
 
 class AuthenticationRepository extends GetxController {
   static AuthenticationRepository get instance => Get.find();
@@ -12,7 +19,7 @@ class AuthenticationRepository extends GetxController {
   late final Rx<User?> firebaseUser;
 
   //get authorized user data
-  User? get authUser => _auth.currentUser;
+  User get authUser => _auth.currentUser!;
 
   @override
   void onReady() {
@@ -72,5 +79,23 @@ class AuthenticationRepository extends GetxController {
   Future<void> signOut() async {
     await _auth.signOut();
     Get.offAll(() => const LoginScreen());
+  }
+
+  ///delete user account
+  Future<void> deleteAccount() async {
+    try {
+      await UserRepository.instance.removeUserRecord(_auth.currentUser!.uid);
+      await _auth.currentUser?.delete();
+    } on FirebaseAuthException catch (e) {
+      throw CustomFirebaseAuthException(e.code).message;
+    } on FirebaseException catch (e) {
+      throw CustomFirebaseException(e.code).message;
+    } on FormatException catch (_) {
+      throw const CustomFormatExceptions();
+    } on PlatformException catch (e) {
+      throw CustomPlatformExceptions(e.code).message;
+    } catch (e) {
+      throw 'Something went wrong. Please try again';
+    }
   }
 }

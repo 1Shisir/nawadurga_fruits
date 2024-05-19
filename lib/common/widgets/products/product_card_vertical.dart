@@ -6,6 +6,7 @@ import 'package:navadurga_fruits/features/shop/models/product_model.dart';
 import 'package:navadurga_fruits/features/shop/screens/product_details/product_details.dart';
 import '../../../utils/consts/sizes.dart';
 import '../../styles/shadows_style.dart';
+import '../cart/add_to_cart_button.dart';
 import '../custom_shapes/containers/circular_container.dart';
 import '../images/rounded_image.dart';
 import '../texts/price_title_text.dart';
@@ -87,18 +88,10 @@ class CustomProductCardVertical extends StatelessWidget {
                   price: product.price.toString(),
                 ),
               ),
-              Container(
-                decoration: const BoxDecoration(
-                    color: Color(0xFF00A368),
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(CustomSizes.cardRadiusMd),
-                      bottomRight:
-                          Radius.circular(CustomSizes.productImageradius),
-                    )),
-                child: const SizedBox(
-                    width: CustomSizes.iconsLg * 1.2,
-                    height: CustomSizes.iconsLg * 1.2,
-                    child: Center(child: Icon(Icons.add, color: Colors.white))),
+
+              //add to cart
+              ProductCartAddToCartButton(
+                product: product,
               ),
             ],
           )
