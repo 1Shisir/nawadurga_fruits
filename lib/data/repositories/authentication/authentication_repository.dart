@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:navadurga_fruits/features/authentication/screens/login/login.dart';
 import 'package:navadurga_fruits/navigation_menu.dart';
+import 'package:navadurga_fruits/utils/local_storage/storage_utility.dart';
 
 import '../../../utils/exceptions/firebase_auth_exceptions.dart';
 import '../../../utils/exceptions/firebase_exceptions.dart';
@@ -30,9 +31,12 @@ class AuthenticationRepository extends GetxController {
 
   //screen redirect
   _setInitialScreen(User? user) {
-    user == null
-        ? Get.offAll(() => const LoginScreen())
-        : Get.offAll(() => const NavigationMenu());
+    if (user == null) {
+      Get.offAll(() => const LoginScreen());
+    } else {
+      CustomLocalStorage.init(authUser.uid);
+      Get.offAll(() => const NavigationMenu());
+    }
   }
 
   //format phone number

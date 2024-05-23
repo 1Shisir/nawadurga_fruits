@@ -6,6 +6,8 @@ import 'package:navadurga_fruits/common/widgets/shimmer/shimmer.dart';
 import 'package:navadurga_fruits/data/repositories/authentication/authentication_repository.dart';
 import 'package:navadurga_fruits/features/personalization/profile/widgets/profile_menu.dart';
 import 'package:navadurga_fruits/features/shop/screens/address/addresses.dart';
+import 'package:navadurga_fruits/features/shop/screens/cart/cart_screen.dart';
+import 'package:navadurga_fruits/features/shop/screens/orders/order.dart';
 import 'package:navadurga_fruits/utils/consts/sizes.dart';
 
 import '../controllers/user_controller.dart';
@@ -97,11 +99,11 @@ class ProfileScreen extends StatelessWidget {
               ProfileMenuWidget(
                   title: 'Order history',
                   icon: Icons.timer_outlined,
-                  onPress: () {}),
+                  onPress: () => Get.to(() => const OrderScreen())),
               ProfileMenuWidget(
-                  title: 'Personal Information',
-                  icon: Icons.info_outline_rounded,
-                  onPress: () {}),
+                  title: 'My cart',
+                  icon: Icons.local_grocery_store,
+                  onPress: () => Get.to(() => const CartScreen())),
               const Divider(),
               ProfileMenuWidget(
                   title: 'Delete account',

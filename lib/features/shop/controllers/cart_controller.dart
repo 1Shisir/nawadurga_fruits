@@ -32,7 +32,6 @@ class CartController extends GetxController {
         Loader.customToast(message: 'Select Quantity');
         return;
       }
-
       //call the below function
       final selectedCartItem =
           convertToCartItem(product, productQuantityInCart.value);

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:navadurga_fruits/features/shop/controllers/cart_controller.dart';
+import 'package:navadurga_fruits/features/shop/screens/checkout/checkout.dart';
 import 'package:navadurga_fruits/utils/consts/lottie.dart';
 import '../../../../common/widgets/appbar/appbar.dart';
 import '../../../../navigation_menu.dart';
@@ -47,7 +48,7 @@ class CartScreen extends StatelessWidget {
           : Padding(
               padding: const EdgeInsets.all(16),
               child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () => Get.to(() => const CheckoutScreen()),
                   child: Obx(() => Text(
                       'Checkout Rs.${cartController.totalCartPrice.value}'))),
             ),

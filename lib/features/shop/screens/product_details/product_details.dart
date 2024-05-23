@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:navadurga_fruits/common/widgets/texts/price_title_text.dart';
 import 'package:navadurga_fruits/common/widgets/texts/product_title_text.dart';
 import 'package:navadurga_fruits/features/shop/models/product_model.dart';
+import 'package:navadurga_fruits/features/shop/screens/checkout/checkout.dart';
 import 'package:navadurga_fruits/features/shop/screens/product_details/widget/product_detail_image.dart';
 import 'package:readmore/readmore.dart';
 
 import '../../../../common/widgets/texts/section_heading.dart';
 import '../../../../utils/consts/sizes.dart';
-import 'widget/product_add_to_cart_widget.dart';
 
 class ProductDetail extends StatelessWidget {
   const ProductDetail({super.key, required this.product});
@@ -16,9 +17,9 @@ class ProductDetail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: BottomAddToCart(
-        product: product,
-      ),
+      //bottomNavigationBar: BottomAddToCart(
+      //product: product,
+      //),
       body: SingleChildScrollView(
         child: Column(children: [
           //image
@@ -59,7 +60,8 @@ class ProductDetail extends StatelessWidget {
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                      onPressed: () {}, child: const Text('Checkout')),
+                      onPressed: () => Get.to(() => const CheckoutScreen()),
+                      child: const Text('Checkout')),
                 ),
                 const SizedBox(height: CustomSizes.spaceBtwnSections),
 

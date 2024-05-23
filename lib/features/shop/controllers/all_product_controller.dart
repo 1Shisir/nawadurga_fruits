@@ -41,6 +41,9 @@ class AllProductsController extends GetxController {
       case 'Lower Price':
         products.sort(((a, b) => a.price.compareTo(b.price)));
         break;
+      case 'By time':
+        products.sort(((a, b) => a.date!.compareTo(b.date!)));
+        break;
 
       default:
         products.sort(((a, b) => a.name.compareTo(b.name)));

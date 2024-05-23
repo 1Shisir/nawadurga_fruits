@@ -6,6 +6,7 @@ class ProductModel {
   final String image;
   final bool? isFeatured;
   final double price;
+  DateTime? date;
   String? description;
   List<String>? images;
 

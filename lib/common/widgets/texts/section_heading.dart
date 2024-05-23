@@ -20,7 +20,7 @@ class CustomSectionHeading extends StatelessWidget {
       children: [
         Text(
           title,
-          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
         ),

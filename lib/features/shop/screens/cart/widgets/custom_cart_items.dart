@@ -10,9 +10,11 @@ class CustomCartItems extends StatelessWidget {
   const CustomCartItems({
     super.key,
     this.showAddRemoveButtons = true,
+    this.isOrder = false,
   });
 
   final bool showAddRemoveButtons;
+  final bool isOrder;
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +41,6 @@ class CustomCartItems extends StatelessWidget {
                 const SizedBox(
                   height: CustomSizes.spaceBtwnItems,
                 ),
-
               if (showAddRemoveButtons)
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -62,6 +63,12 @@ class CustomCartItems extends StatelessWidget {
                         price: (item.price * item.quantity).toStringAsFixed(1)),
                   ],
                 ),
+              if (isOrder)
+                Text(
+                  '${item.quantity} kg',
+                  style: const TextStyle(
+                      fontSize: 20, fontWeight: FontWeight.bold),
+                )
             ],
           );
         }),
