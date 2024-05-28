@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:navadurga_fruits/utils/consts/lottie.dart';
 import '../../../../navigation_menu.dart';
@@ -17,12 +17,12 @@ class OrderController extends GetxController {
 
   //variables
   final cartController = CartController.instance;
-  final addressController = AddressController.instance;
+  final addressController = Get.put(AddressController());
   final checkoutController = Get.put(CheckoutController());
   final orderRepository = Get.put(OrderRepository());
 
   //fetch user's order history
-  Future<List<OrderModel>> fetchUserOrders() async {
+  Future<List<OrderModel>> fetchuserOrders() async {
     try {
       final userOrders = await orderRepository.fetchUserOrders();
       return userOrders;
@@ -45,7 +45,7 @@ class OrderController extends GetxController {
 
       //Add datails
       final order = OrderModel(
-        id: UniqueKey().toString(),
+        id: FirebaseFirestore.instance.collection('Products').doc().id,
         userId: userId,
         status: OrderStatus.pending,
         totalAmount: totalAmount,

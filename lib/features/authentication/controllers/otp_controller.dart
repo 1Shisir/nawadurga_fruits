@@ -6,7 +6,6 @@ import 'package:navadurga_fruits/navigation_menu.dart';
 import 'package:navadurga_fruits/utils/consts/lottie.dart';
 import 'package:navadurga_fruits/utils/popups/full_screen_loader.dart';
 import 'package:navadurga_fruits/utils/popups/loader.dart';
-
 import '../../../data/repositories/user/user_repository.dart';
 import '../../personalization/models/user_model.dart';
 
@@ -34,6 +33,7 @@ class OTPController extends GetxController {
       );
 
       await userRepository.saveUserRecord(newUser);
+      // await CustomLocalStorage.init(FirebaseAuth.instance.currentUser!.uid);
     } catch (e) {
       Loader.errorSnackBar(title: 'Oh snap!', message: e.toString());
     }

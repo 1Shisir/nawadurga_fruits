@@ -16,6 +16,16 @@ class CartItemModel {
   ///Empty model
   static CartItemModel empty() => CartItemModel(productId: '', quantity: 0);
 
+  // toJson method excluding the image
+  Map<String, dynamic> toJsonWithoutImage() {
+    return {
+      'productId': productId,
+      'title': title,
+      'quantity': quantity,
+      'price': price,
+    };
+  }
+
   //convert a cartitem to JSON map
   Map<String, dynamic> toJson() {
     return {
@@ -32,7 +42,7 @@ class CartItemModel {
       productId: json['productId'],
       quantity: json['quantity'],
       price: json['price']?.toDouble(),
-      image: json['image'],
+      image: json['image'] ?? '',
       title: json['title'],
     );
   }

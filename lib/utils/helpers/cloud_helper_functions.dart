@@ -22,7 +22,7 @@ class CloudHelperFunctions {
       );
     }
 
-    if (snapshot.hasData) {
+    if (!snapshot.hasData) {
       return const Center(
         child: Text('Something went wrong'),
       );

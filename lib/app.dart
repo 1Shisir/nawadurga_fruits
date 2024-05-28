@@ -13,8 +13,8 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       theme: CustomAppTheme.theme,
-      initialBinding: GeneralBindings(),
       home: const LoginScreen(),
+      initialBinding: GeneralBindings(),
     );
   }
 }

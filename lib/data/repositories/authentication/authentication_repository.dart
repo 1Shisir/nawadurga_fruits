@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:navadurga_fruits/features/authentication/screens/login/login.dart';
 import 'package:navadurga_fruits/navigation_menu.dart';
 import 'package:navadurga_fruits/utils/local_storage/storage_utility.dart';
@@ -15,6 +17,7 @@ class AuthenticationRepository extends GetxController {
   static AuthenticationRepository get instance => Get.find();
 
   //variables
+  final deviceStorage = GetStorage();
   final _auth = FirebaseAuth.instance;
   var verificationId = ''.obs;
   late final Rx<User?> firebaseUser;
@@ -27,9 +30,24 @@ class AuthenticationRepository extends GetxController {
     firebaseUser = Rx<User?>(_auth.currentUser);
     firebaseUser.bindStream(_auth.userChanges());
     ever(firebaseUser, _setInitialScreen);
+    // screenRedirect();
   }
 
   //screen redirect
+
+  // screenRedirect() async {
+  //   final user = _auth.currentUser;
+  //   if (user != null) {
+  //     //if the user is verified
+  //     //initialize user specific bucket
+  //     //await CustomLocalStorage.init(user.uid);
+
+  //     //if the user is verified , nacigate to the main navigation menu
+  //     Get.offAll(() => const NavigationMenu());
+  //   } else {
+  //     Get.to(() => const LoginScreen());
+  //   }
+  // }
   _setInitialScreen(User? user) {
     if (user == null) {
       Get.offAll(() => const LoginScreen());
@@ -54,12 +72,19 @@ class AuthenticationRepository extends GetxController {
       phoneNumber: formattedPhoneNumber,
       verificationCompleted: (credential) async {
         await _auth.signInWithCredential(credential);
+        // await CustomLocalStorage.init(authUser.uid);
       },
-      verificationFailed: (e) {
-        if (e.code == 'invalid-phone-number') {
-          Get.snackbar('Error', 'The provided phone number is invalid');
+      verificationFailed: (FirebaseAuthException e) {
+        if (e.code == 'session-expired') {
+          ScaffoldMessenger.of(Get.context!).showSnackBar(
+            const SnackBar(
+                content:
+                    Text('reCAPTCHA verification expired. Please try again.')),
+          );
         } else {
-          Get.snackbar('Error', 'Something went wrong.Try again.');
+          ScaffoldMessenger.of(Get.context!).showSnackBar(
+            SnackBar(content: Text('Verification failed: ${e.message}')),
+          );
         }
       },
       codeSent: (verificationId, resendToken) {
@@ -76,6 +101,7 @@ class AuthenticationRepository extends GetxController {
     var credentials = await _auth.signInWithCredential(
         PhoneAuthProvider.credential(
             verificationId: verificationId.value, smsCode: otp));
+    // await CustomLocalStorage.init(authUser.uid);
     return credentials.user != null ? true : false;
   }
 

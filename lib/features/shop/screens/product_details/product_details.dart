@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:navadurga_fruits/common/widgets/products/product_add_to_cart_widget.dart';
 import 'package:navadurga_fruits/common/widgets/texts/price_title_text.dart';
 import 'package:navadurga_fruits/common/widgets/texts/product_title_text.dart';
 import 'package:navadurga_fruits/features/shop/models/product_model.dart';
@@ -17,9 +18,9 @@ class ProductDetail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //bottomNavigationBar: BottomAddToCart(
-      //product: product,
-      //),
+      bottomNavigationBar: BottomAddToCart(
+        product: product,
+      ),
       body: SingleChildScrollView(
         child: Column(children: [
           //image
