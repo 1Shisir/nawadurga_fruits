@@ -33,7 +33,8 @@ class OTPController extends GetxController {
       );
 
       await userRepository.saveUserRecord(newUser);
-      // await CustomLocalStorage.init(FirebaseAuth.instance.currentUser!.uid);
+
+      FullScreenLoader.stopLoading();
     } catch (e) {
       Loader.errorSnackBar(title: 'Oh snap!', message: e.toString());
     }

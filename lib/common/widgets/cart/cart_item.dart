@@ -19,8 +19,8 @@ class CartItem extends StatelessWidget {
         ///image
         CustomCircularImage(
           image: cartItem.image ?? '',
-          height: 60,
-          width: 60,
+          height: 80,
+          width: 80,
           isNetworkImage: true,
           backgroundColor: Colors.white,
         ),

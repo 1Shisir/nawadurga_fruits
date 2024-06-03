@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class CartItemModel {
   String productId;
   String title;
@@ -37,13 +39,14 @@ class CartItemModel {
     };
   }
 
-  factory CartItemModel.fromJson(Map<String, dynamic> json) {
+  factory CartItemModel.fromJson(DocumentSnapshot json) {
+    final data = json.data() as Map<String, dynamic>;
     return CartItemModel(
-      productId: json['productId'],
-      quantity: json['quantity'],
-      price: json['price']?.toDouble(),
-      image: json['image'] ?? '',
-      title: json['title'],
+      productId: data['productId'] ?? '',
+      title: data['title'] ?? '',
+      image: data['image'] ?? '',
+      price: data['price']?.toDouble(),
+      quantity: data['quantity'],
     );
   }
 }

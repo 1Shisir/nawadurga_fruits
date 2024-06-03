@@ -53,10 +53,8 @@ class AnimationLoaderWidget extends StatelessWidget {
                           backgroundColor: Colors.black38),
                       child: Text(
                         actionText!,
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyMedium!
-                            .apply(color: Colors.white54),
+                        style: Theme.of(context).textTheme.bodyMedium!.apply(
+                            color: const Color.fromARGB(255, 255, 255, 255)),
                       )),
                 )
               : const SizedBox(),

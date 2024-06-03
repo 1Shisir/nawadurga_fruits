@@ -1,9 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
+import 'package:navadurga_fruits/data/repositories/authentication/authentication_repository.dart';
 import 'package:navadurga_fruits/features/shop/models/cart_item_model.dart';
 import 'package:navadurga_fruits/features/shop/models/product_model.dart';
 import 'package:navadurga_fruits/utils/popups/loader.dart';
-
-import '../../../utils/local_storage/storage_utility.dart';
 
 class CartController extends GetxController {
   static CartController get instance => Get.find();
@@ -13,6 +13,7 @@ class CartController extends GetxController {
   RxDouble totalCartPrice = 0.0.obs;
   RxInt productQuantityInCart = 0.obs;
   RxList<CartItemModel> cartItems = <CartItemModel>[].obs;
+  final _db = FirebaseFirestore.instance;
 
   // CartController() {
   //   loadCartItems();
@@ -114,7 +115,7 @@ class CartController extends GetxController {
   //update cart values
   void updateCart() {
     updateCartTotals();
-    saveCartItems();
+    saveCartItemsToUserCollection();
     cartItems.refresh();
   }
 
@@ -131,18 +132,81 @@ class CartController extends GetxController {
     noOfCartItems.value = calculateNoOfItems;
   }
 
-  void saveCartItems() {
-    final cartItemStrings = cartItems.map((item) => item.toJson()).toList();
-    CustomLocalStorage.instance().saveData('cartItems', cartItemStrings);
+  // Save cart items to Firestore
+  Future<void> saveCartItemsToUserCollection() async {
+    try {
+      final userId = AuthenticationRepository.instance.authUser.uid;
+
+      if (userId.isEmpty) {
+        throw 'Unable to find user information. Try again in a few minutes.';
+      }
+
+      final userCartCollection =
+          _db.collection('Users').doc(userId).collection('Carts');
+
+      // Clear existing cart items in Firestore
+      final existingCartItemsSnapshot = await userCartCollection.get();
+      for (var doc in existingCartItemsSnapshot.docs) {
+        await doc.reference.delete();
+      }
+
+      // Add updated cart items to Firestore
+      for (var item in cartItems) {
+        await userCartCollection.add(item.toJson());
+      }
+
+      Loader.customToast(message: 'Cart saved successfully');
+    } catch (e) {
+      Loader.errorSnackBar(title: 'Oh snap', message: e.toString());
+    }
   }
 
-  void loadCartItems() {
-    final cartItemStrings =
-        CustomLocalStorage.instance().readData<List<dynamic>>('cartItems');
-    if (cartItemStrings != null) {
-      cartItems.assignAll(cartItemStrings
-          .map((item) => CartItemModel.fromJson(item as Map<String, dynamic>)));
+  // Future<List<CartItemModel>> loadCartItems() async {
+  //   try {
+  //     final userId = AuthenticationRepository.instance.authUser.uid;
+
+  //     if (userId.isEmpty) {
+  //       throw 'Unable to find user information.Try again in few minutes';
+  //     }
+  //     final result =
+  //         await _db.collection('Users').doc(userId).collection('Carts').get();
+  //     // print('Result:$result');
+  //     return result.docs
+  //         .map((documentSnapshot) => CartItemModel.fromJson(documentSnapshot))
+  //         .toList();
+  //   } catch (e) {
+  //     // print('Error:$e');
+  //     throw 'Something went wrong .Try again later.';
+  //   }
+  // }
+  Future<void> loadCartItems() async {
+    try {
+      final userId = AuthenticationRepository.instance.authUser.uid;
+
+      if (userId.isEmpty) {
+        throw 'Unable to find user information. Try again in few minutes';
+      }
+
+      final result =
+          await _db.collection('Users').doc(userId).collection('Carts').get();
+
+      // Clear the existing items
+      cartItems.clear();
+
+      // Add the fetched items to the cartItems list
+      cartItems.addAll(
+        result.docs
+            .map((documentSnapshot) => CartItemModel.fromJson(documentSnapshot))
+            .toList(),
+      );
+
+      // Update cart totals
       updateCartTotals();
+
+      // Refresh cart items observable list
+      cartItems.refresh();
+    } catch (e) {
+      throw 'Something went wrong. Try again later.';
     }
   }
 

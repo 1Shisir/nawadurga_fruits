@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:navadurga_fruits/features/shop/controllers/order_controller.dart';
+import 'package:navadurga_fruits/utils/consts/lottie.dart';
 
 import '../../../../../common/widgets/custom_shapes/containers/circular_container.dart';
+import '../../../../../navigation_menu.dart';
 import '../../../../../utils/consts/sizes.dart';
-import '../../../controllers/order_controller.dart';
+import '../../../../../utils/helpers/cloud_helper_functions.dart';
+import '../../../../../utils/loaders/animation_loader.dart';
 
 class CustomOrderListItems extends StatelessWidget {
   const CustomOrderListItems({super.key});
@@ -15,27 +19,20 @@ class CustomOrderListItems extends StatelessWidget {
     return FutureBuilder(
         future: orderController.fetchuserOrders(),
         builder: (_, snapshot) {
-          //nothing found widget
-          // final emptyWidget = AnimationLoaderWidget(
-          //   text: 'No orders Yet!',
-          //   animation: CustomLottie.lottie,
-          //   showAction: true,
-          //   actionText: 'Let\'s fill it',
-          //   onActionPressed: () => Get.off(() => const NavigationMenu()),
-          // );
+          // nothing found widget
+          final emptyWidget = AnimationLoaderWidget(
+            text: 'No orders Yet!',
+            animation: CustomLottie.lottie,
+            showAction: true,
+            actionText: 'Let\'s fill it',
+            onActionPressed: () => Get.off(() => const NavigationMenu()),
+          );
 
-          // //helper function to handle loader,no record,or erreor
-          // final response = CloudHelperFunctions.checkMultiplerecordState(
-          //     snapshot: snapshot, nothingFound: emptyWidget);
-          // if (response != null) return response;
-          if (snapshot.data!.isEmpty) {
-            return const Center(
-              child: Text(
-                'No data Found',
-                style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
-              ),
-            );
-          }
+          //helper function to handle loader,no record,or erreor
+          final response = CloudHelperFunctions.checkMultiplerecordState(
+              snapshot: snapshot, nothingFound: emptyWidget);
+
+          if (response != null) return response;
 
           //record found
           final orders = snapshot.data!;
@@ -73,17 +70,12 @@ class CustomOrderListItems extends StatelessWidget {
                               children: [
                                 Text(
                                   order.orderStatusText,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyLarge!
-                                      .apply(
-                                          color: Colors.green,
-                                          fontWeightDelta: 1),
+                                  style: const TextStyle(fontSize: 14).apply(
+                                      color: Colors.green, fontWeightDelta: 1),
                                 ),
                                 Text(
                                   order.orderDate.toString(),
-                                  style:
-                                      Theme.of(context).textTheme.headlineSmall,
+                                  style: const TextStyle(fontSize: 16),
                                 )
                               ],
                             ),
@@ -153,15 +145,13 @@ class CustomOrderListItems extends StatelessWidget {
                                         CrossAxisAlignment.start,
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
-                                      Text('Shipping date',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .labelMedium),
+                                      const Text('Shipping date',
+                                          style: TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.bold)),
                                       Text(
                                         order.deliveryDate.toString(),
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .titleMedium,
+                                        style: const TextStyle(fontSize: 16),
                                       )
                                     ],
                                   ),

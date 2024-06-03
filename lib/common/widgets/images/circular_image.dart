@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:navadurga_fruits/common/widgets/shimmer/shimmer.dart';
+import 'package:navadurga_fruits/utils/consts/image_string.dart';
 import '../../../utils/consts/sizes.dart';
 
 class CustomCircularImage extends StatelessWidget {
@@ -44,7 +45,9 @@ class CustomCircularImage extends StatelessWidget {
                   progressIndicatorBuilder: (context, url, downloadProgress) =>
                       const CustomShimmerEffect(
                           width: 55, height: 55, radius: 55),
-                  errorWidget: (context, url, error) => const Icon(Icons.error),
+                  errorWidget: (context, url, error) =>
+                      const CustomCircularImage(
+                          width: 160, height: 160, image: MyImage.userProfile),
                 )
               : Image(
                   image: //isNetworkImage

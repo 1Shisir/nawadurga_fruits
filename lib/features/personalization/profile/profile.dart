@@ -24,7 +24,7 @@ class ProfileScreen extends StatelessWidget {
           'Profile',
           style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
         ),
-        showbackArrow: true,
+        showbackArrow: false,
         actions: [
           IconButton(
               onPressed: () => AuthenticationRepository.instance.signOut(),

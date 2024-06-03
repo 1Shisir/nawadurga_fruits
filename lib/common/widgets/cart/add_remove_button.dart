@@ -26,7 +26,7 @@ class AddAndRemoveButton extends StatelessWidget {
           height: 32,
           size: CustomSizes.md,
           color: Colors.black,
-          backgroundColor: Colors.grey,
+          //backgroundColor: Colors.grey,
           onPressed: remove,
         ),
         const SizedBox(
@@ -45,7 +45,7 @@ class AddAndRemoveButton extends StatelessWidget {
           height: 32,
           size: CustomSizes.md,
           color: Colors.black,
-          backgroundColor: Colors.green,
+          // backgroundColor:const Color.fromARGB(255, 244, 244, 244),
           onPressed: add,
         ),
       ],

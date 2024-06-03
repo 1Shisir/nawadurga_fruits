@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import '../../../features/shop/models/order_model.dart';
-import '../authentication/authentication_repository.dart';
 
 class OrderRepository extends GetxController {
   static OrderRepository get instance => Get.find();
@@ -11,19 +11,27 @@ class OrderRepository extends GetxController {
   //Get all order related to current user
   Future<List<OrderModel>> fetchUserOrders() async {
     try {
-      final userId = AuthenticationRepository.instance.authUser.uid;
+      final user = FirebaseAuth.instance.currentUser;
+      if (user == null) {
+        throw 'User not authenticated.';
+      }
+      final userId = user.uid;
 
       if (userId.isEmpty) {
-        throw 'Unable to find user information.Try again in few minutes';
+        throw 'Unable to find user information. Try again in few minutes';
       }
       final result =
           await _db.collection('Users').doc(userId).collection('Orders').get();
-      print('Result:$result');
+
+      if (result.docs.isEmpty) {
+        //print('No orders found for user: $userId');
+      }
+      // print('Result:$result');
       return result.docs
           .map((documentSnapshot) => OrderModel.fromSnapshot(documentSnapshot))
           .toList();
     } catch (e) {
-      print('Error:$e');
+      // print('Error:$e');
       throw 'Something went wrong .Try again later.';
     }
   }

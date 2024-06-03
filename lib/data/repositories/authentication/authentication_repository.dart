@@ -2,10 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:navadurga_fruits/features/authentication/screens/login/login.dart';
 import 'package:navadurga_fruits/navigation_menu.dart';
-import 'package:navadurga_fruits/utils/local_storage/storage_utility.dart';
+import 'package:navadurga_fruits/utils/popups/loader.dart';
 
 import '../../../utils/exceptions/firebase_auth_exceptions.dart';
 import '../../../utils/exceptions/firebase_exceptions.dart';
@@ -17,7 +16,6 @@ class AuthenticationRepository extends GetxController {
   static AuthenticationRepository get instance => Get.find();
 
   //variables
-  final deviceStorage = GetStorage();
   final _auth = FirebaseAuth.instance;
   var verificationId = ''.obs;
   late final Rx<User?> firebaseUser;
@@ -52,7 +50,11 @@ class AuthenticationRepository extends GetxController {
     if (user == null) {
       Get.offAll(() => const LoginScreen());
     } else {
-      CustomLocalStorage.init(authUser.uid);
+      if (user.uid.isEmpty) {
+        Loader.warningSnackBar(
+            title: "Login Required", message: 'Please login first');
+        return;
+      }
       Get.offAll(() => const NavigationMenu());
     }
   }
@@ -72,7 +74,6 @@ class AuthenticationRepository extends GetxController {
       phoneNumber: formattedPhoneNumber,
       verificationCompleted: (credential) async {
         await _auth.signInWithCredential(credential);
-        // await CustomLocalStorage.init(authUser.uid);
       },
       verificationFailed: (FirebaseAuthException e) {
         if (e.code == 'session-expired') {
@@ -81,6 +82,9 @@ class AuthenticationRepository extends GetxController {
                 content:
                     Text('reCAPTCHA verification expired. Please try again.')),
           );
+        } else if (e.code == 'invalid phone number') {
+          Loader.errorSnackBar(
+              title: 'Phone Number is Used', message: 'Use another number');
         } else {
           ScaffoldMessenger.of(Get.context!).showSnackBar(
             SnackBar(content: Text('Verification failed: ${e.message}')),
@@ -101,7 +105,6 @@ class AuthenticationRepository extends GetxController {
     var credentials = await _auth.signInWithCredential(
         PhoneAuthProvider.credential(
             verificationId: verificationId.value, smsCode: otp));
-    // await CustomLocalStorage.init(authUser.uid);
     return credentials.user != null ? true : false;
   }
 

@@ -66,11 +66,11 @@ class OtpVerificationScreen extends StatelessWidget {
                 height: CustomSizes.spaceBtwnItems,
               ),
 
-              SizedBox(
-                width: double.infinity,
-                child: OutlinedButton(
-                    onPressed: () {}, child: const Text('Resend OTP')),
-              )
+              // SizedBox(
+              //   width: double.infinity,
+              //   child: OutlinedButton(
+              //       onPressed: () {}, child: const Text('Resend OTP')),
+              // )
             ],
           ),
         ),
