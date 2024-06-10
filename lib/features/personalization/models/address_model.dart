@@ -52,15 +52,17 @@ class AddressModel {
   factory AddressModel.fromMap(Map<String, dynamic> data) {
     return AddressModel(
       id: data['Id'] as String,
-      name: data['Name'] as String,
-      phoneNumber: data['PhoneNumber'] as String,
-      tole: data['Tole'] as String,
-      city: data['City'] as String,
-      state: data['State'] as String,
-      country: data['Country'] as String,
-      wardNo: data['WardNo'] as String,
+      city: data['City'] as String? ?? '',
+      country: data['Country'] as String? ?? '',
+      dateTime: data['DateTime'] != null
+          ? (data['DateTime'] as Timestamp).toDate()
+          : DateTime.now(),
+      name: data['Name'] as String? ?? '',
+      phoneNumber: data['PhoneNumber'] as String? ?? '',
       selectedAddress: data['SelectedAddress'] as bool,
-      dateTime: (data['DateTime'] as Timestamp).toDate(),
+      state: data['State'] as String? ?? '',
+      tole: data['Tole'] as String? ?? '',
+      wardNo: data['WardNo'] as String? ?? '',
     );
   }
 

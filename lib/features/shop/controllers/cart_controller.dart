@@ -196,7 +196,8 @@ class CartController extends GetxController {
       // Add the fetched items to the cartItems list
       cartItems.addAll(
         result.docs
-            .map((documentSnapshot) => CartItemModel.fromJson(documentSnapshot))
+            .map((documentSnapshot) => CartItemModel.fromJson(
+                documentSnapshot as Map<String, dynamic>))
             .toList(),
       );
 

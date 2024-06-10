@@ -51,7 +51,7 @@ class OrderController extends GetxController {
         totalAmount: totalAmount,
         orderDate: DateTime.now(),
         items: cartController.cartItems.toList(),
-        paymentMethod: checkoutController.selectedpaymentMethod.value.name,
+        paymentMethod: 'Cash on Delivery',
         address: addressController.selectedAddress.value,
         deliveryDate: DateTime.now(),
       );
@@ -70,9 +70,6 @@ class OrderController extends GetxController {
       Get.off(() => const NavigationMenu());
     } catch (e) {
       Loader.errorSnackBar(title: 'Oh snap!', message: e.toString());
-    } finally {
-      // Close the loading dialog
-      FullScreenLoader.stopLoading();
     }
   }
 }
