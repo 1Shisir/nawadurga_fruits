@@ -66,7 +66,7 @@ class OrderModel {
           .map((item) => CartItemModel.fromJson(item))
           .toList(),
       userId: json['userId'],
-      status: OrderStatus.pending,
+      status: json['status'],
     );
   }
 
