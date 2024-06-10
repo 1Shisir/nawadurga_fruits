@@ -22,11 +22,15 @@ class OrderController extends GetxController {
   final orderRepository = Get.put(OrderRepository());
 
   //fetch user's order history
-  Future<List<OrderModel>> fetchUserOrders() async {
+  Future<List<OrderV2>> fetchUserOrders() async {
     try {
       final userOrders = await orderRepository.fetchUserOrders();
       return userOrders;
     } catch (e) {
+      print(e);
+      e.printError();
+      e.printInfo();
+
       Loader.warningSnackBar(title: 'Oh snap', message: e.toString());
       return [];
     }

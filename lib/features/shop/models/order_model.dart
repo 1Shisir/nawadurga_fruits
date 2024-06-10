@@ -48,8 +48,9 @@ class OrderModel {
 
   factory OrderModel.fromSnapshot(DocumentSnapshot snapshot) {
     final data = snapshot.data() as Map<String, dynamic>;
+    print(data);
     return OrderModel(
-      id: data['id'] as String,
+      id: data['id'].toString(),
       status:
           OrderStatus.values.firstWhere((e) => e.toString() == data['status']),
       totalAmount: data['totalAmount'] as double,
@@ -66,4 +67,5 @@ class OrderModel {
           .toList(),
     );
   }
+
 }

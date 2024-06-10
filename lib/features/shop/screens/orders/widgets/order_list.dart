@@ -36,8 +36,7 @@ class CustomOrderListItems extends StatelessWidget {
           //record found
           final orders = snapshot.data!;
 
-          return Obx(
-            () => ListView.separated(
+          return  ListView.separated(
                 shrinkWrap: true,
                 itemCount: orders.length,
                 separatorBuilder: (_, index) => const SizedBox(
@@ -69,7 +68,7 @@ class CustomOrderListItems extends StatelessWidget {
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   Text(
-                                    order.orderStatusText,
+                                    '',
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyLarge!
@@ -172,7 +171,7 @@ class CustomOrderListItems extends StatelessWidget {
                       ],
                     ),
                   );
-                }),
+                }
           );
         });
   }
