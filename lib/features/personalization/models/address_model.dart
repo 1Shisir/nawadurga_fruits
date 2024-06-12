@@ -37,6 +37,7 @@ class AddressModel {
 
   Map<String, dynamic> toJson() {
     return {
+      'Id': id,
       'Name': name,
       'PhoneNumber': phoneNumber,
       'Tole': tole,
@@ -49,20 +50,18 @@ class AddressModel {
     };
   }
 
-  factory AddressModel.fromMap(Map<String, dynamic> data) {
+  factory AddressModel.fromMap(Map<String, dynamic> json) {
     return AddressModel(
-      id: data['Id'] as String,
-      city: data['City'] as String? ?? '',
-      country: data['Country'] as String? ?? '',
-      dateTime: data['DateTime'] != null
-          ? (data['DateTime'] as Timestamp).toDate()
-          : DateTime.now(),
-      name: data['Name'] as String? ?? '',
-      phoneNumber: data['PhoneNumber'] as String? ?? '',
-      selectedAddress: data['SelectedAddress'] as bool,
-      state: data['State'] as String? ?? '',
-      tole: data['Tole'] as String? ?? '',
-      wardNo: data['WardNo'] as String? ?? '',
+      tole: json['Tole'] as String,
+      state: json['State'] as String,
+      selectedAddress: json['SelectedAddress'] as bool,
+      phoneNumber: json['PhoneNumber'] as String,
+      country: json['Country'] as String,
+      city: json['City'] as String,
+      wardNo: json['WardNo'] as String,
+      dateTime: (json['DateTime'] as Timestamp).toDate(),
+      name: json['Name'] as String,
+      id: json['Id'] as String,
     );
   }
 

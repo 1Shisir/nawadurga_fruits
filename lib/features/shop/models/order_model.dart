@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 
 import '../../../utils/consts/enums.dart';
@@ -12,7 +13,7 @@ class OrderModel {
   final DateTime orderDate;
   final String paymentMethod;
   final AddressModel? address;
-  final DateTime deliveryDate;
+  final DateTime? deliveryDate;
   final List<CartItemModel> items;
 
   OrderModel({
@@ -27,88 +28,74 @@ class OrderModel {
     required this.deliveryDate,
   });
 
-  // String get orderStatusText {
-  //   switch (status) {
-  //     case OrderStatus.delivered:
-  //       return 'Delivered';
-  //     case OrderStatus.pending:
-  //       return 'Pending';
-  //     case OrderStatus.processing:
-  //       return 'Processing';
-  //     default:
-  //       return 'Unknown';
-  //   }
-  // }
+  String get orderStatusText {
+    switch (status) {
+      case OrderStatus.delivered:
+        return 'Delivered';
+      case OrderStatus.pending:
+        return 'Pending';
+      case OrderStatus.processing:
+        return 'Processing';
+      default:
+        return 'Unknown';
+    }
+  }
 
   Map<String, dynamic> toJson() {
     return {
       'id': id,
       'userId': userId,
-      'status': status.value,
+      'status': status.toString(),
       'totalAmount': totalAmount,
-      'orderDate': orderDate,
+      'orderDate': DateTime.now(),
       'paymentMethod': paymentMethod,
       'address': address?.toJson(),
-      'deliveryDate': deliveryDate.millisecondsSinceEpoch,
+      'deliveryDate': orderDate.add(const Duration(days: 2)),
       'items': items.map((item) => item.toJson()).toList(),
     };
   }
 
-  factory OrderModel.fromJson(Map<String, dynamic> json) {
-    return OrderModel(
-      totalAmount: double.parse(json['totalAmount'].toString()),
-      address: AddressModel.fromMap(json['address']),
-      paymentMethod: json['paymentMethod'],
-      id: json['id'],
-      deliveryDate: DateTime.fromMillisecondsSinceEpoch(json['deliveryDate']),
-      orderDate: DateTime.fromMillisecondsSinceEpoch(json['orderDate']),
-      items: (json['items'] as List)
-          .map((item) => CartItemModel.fromJson(item))
-          .toList(),
-      userId: json['userId'],
-      status: json['status'],
-    );
-  }
-
-  // factory OrderModel.fromSnapshot(DocumentSnapshot snapshot) {
-  //   final data = snapshot.data() as Map<String, dynamic>;
+  // factory OrderModel.fromJson(Map<String, dynamic> json) {
   //   return OrderModel(
-  //     id: data['id'] as String? ?? '1234',
-  //     userId: data['userId'] as String? ?? 'abcd',
-  //     status: data['status'] != null
-  //         ? OrderStatus.values.firstWhere(
-  //             (e) => e.toString().split('.').last == data['status'],
-  //             orElse: () => OrderStatus.pending,
-  //           )
-  //         : OrderStatus.pending,
-  //     totalAmount: (data['totalAmount'] != null && data['totalAmount'] is num)
-  //         ? (data['totalAmount'] as num).toDouble()
-  //         : 0.0,
-  //     orderDate: data['orderDate'] != null
-  //         ? (data['orderDate'] as Timestamp).toDate()
-  //         : DateTime.now(),
-  //     paymentMethod: data['paymentMethod'] as String? ?? 'Unknown',
-  //     address: data['address'] != null
-  //         ? AddressModel.fromMap(data['address'] as Map<String, dynamic>)
-  //         : AddressModel.empty(), // Provide a default AddressModel if null
-  //     deliveryDate: data['deliveryDate'] != null
-  //         ? (data['deliveryDate'] as Timestamp).toDate()
-  //         : null,
-  //     items: data['items'] != null
-  //         ? (data['items'] as List<dynamic>)
-  //             .map((itemData) => CartItemModel.fromJson(itemData))
-  //             .toList()
-  //         : [], // Provide an empty list if null
+  //     totalAmount: double.parse(json['totalAmount'].toString()),
+  //     address: AddressModel.fromMap(json['address']),
+  //     paymentMethod: json['paymentMethod'],
+  //     id: json['id'],
+  //     deliveryDate: DateTime.parse(json['deliveryDate']),
+  //     orderDate: DateTime.parse(json['orderDate']),
+  //     items: (json['items'] as List)
+  //         .map((item) => CartItemModel.fromJson(item))
+  //         .toList(),
+  //     userId: json['userId'],
+  //     status: json['status'],
   //   );
   // }
 
+  factory OrderModel.fromSnapshot(DocumentSnapshot snapshot) {
+    final data = snapshot.data() as Map<String, dynamic>;
+    return OrderModel(
+      id: data['id'] as String,
+      userId: data['userId'] as String,
+      status: OrderStatus.pending,
+      totalAmount: double.parse(data['totalAmount'].toString()),
+      orderDate: (data['orderDate'] as Timestamp).toDate(),
+      paymentMethod: data['paymentMethod'] as String,
+      address: AddressModel.fromMap(data['address'] as Map<String, dynamic>),
+      deliveryDate: (data['deliveryDate'] as Timestamp).toDate(),
+      items: (data['items'] as List)
+          .map((itemData) =>
+              CartItemModel.fromJson(itemData as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
   String get formattedOrderDate {
-    final DateFormat formatter = DateFormat('yyyy-MM-dd HH:mm:ss');
+    final DateFormat formatter = DateFormat('yyyy-MM-dd');
     return formatter.format(orderDate);
   }
 
   String get formattedDeliveryDate {
-    final DateFormat formatter = DateFormat('yyyy-MM-dd HH:mm:ss');
-    return formatter.format(deliveryDate);
+    final DateFormat formatter = DateFormat('yyyy-MM-dd');
+    return formatter.format(deliveryDate!);
   }
 }

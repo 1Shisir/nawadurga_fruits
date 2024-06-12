@@ -26,7 +26,7 @@ class AddressRepository extends GetxController {
               AddressModel.fromDocumentSnapshot(documentSnapshot))
           .toList();
     } catch (e) {
-      throw 'Something went wrong.Please try again later.';
+      throw '$e';
     }
   }
 

@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../../../common/widgets/texts/section_heading.dart';
 import '../../../../../utils/consts/sizes.dart';
-import '../../../../../utils/helpers/cloud_helper_functions.dart';
 import '../../../../personalization/controllers/address_controller.dart';
-import '../../address/widgets/single_address.dart';
 
 class CustomBillingAddressSection extends StatelessWidget {
   const CustomBillingAddressSection({super.key});
@@ -20,31 +18,54 @@ class CustomBillingAddressSection extends StatelessWidget {
         onPressed: () => controller.selectNewAddressPopup(context),
       ),
       controller.selectedAddress.value.id.isNotEmpty
-          ? SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.all(CustomSizes.defaultSpace),
-                child: Obx(
-                  () => FutureBuilder(
-                      key: Key(controller.refreshData.value.toString()),
-                      future: controller.getAllUserAddresses(),
-                      builder: (context, snapshot) {
-                        //helper function
-                        final response =
-                            CloudHelperFunctions.checkMultiplerecordState(
-                                snapshot: snapshot);
-                        if (response != null) return response;
-
-                        final addresses = snapshot.data!;
-                        return ListView.builder(
-                            shrinkWrap: true,
-                            itemCount: addresses.length,
-                            itemBuilder: (_, index) => SingleAddress(
-                                  address: addresses[index],
-                                  onTap: () => controller
-                                      .selectAddress(addresses[index]),
-                                ));
-                      }),
-                ),
+          ? Obx(
+              () => Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    controller.selectedAddress.value.name,
+                    style: const TextStyle(fontSize: 16),
+                  ),
+                  const SizedBox(
+                    height: CustomSizes.spaceBtwnItems / 2,
+                  ),
+                  Row(
+                    children: [
+                      const Icon(
+                        Icons.phone,
+                        color: Colors.grey,
+                        size: 16,
+                      ),
+                      const SizedBox(
+                        width: CustomSizes.spaceBtwnItems,
+                      ),
+                      Text(
+                        controller.selectedAddress.value.phoneNumber,
+                        style: const TextStyle(fontSize: 16),
+                      )
+                    ],
+                  ),
+                  const SizedBox(
+                    height: CustomSizes.spaceBtwnItems / 2,
+                  ),
+                  Row(
+                    children: [
+                      const Icon(
+                        Icons.location_history,
+                        color: Colors.grey,
+                        size: 16,
+                      ),
+                      const SizedBox(
+                        width: CustomSizes.spaceBtwnItems,
+                      ),
+                      Expanded(
+                          child: Text(
+                        controller.selectedAddress.value.toString(),
+                        style: const TextStyle(fontSize: 16),
+                      ))
+                    ],
+                  )
+                ],
               ),
             )
           : Text(

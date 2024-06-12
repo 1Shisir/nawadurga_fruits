@@ -77,11 +77,18 @@ class CustomOrderListItems extends StatelessWidget {
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   Text(
-                                    order.status.toString(),
-                                    style: const TextStyle(fontSize: 14).apply(
-                                        color: Colors.green,
-                                        fontWeightDelta: 1),
+                                    order.orderStatusText,
+                                    style: const TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold)
+                                        .apply(
+                                      color: Colors.green,
+                                    ),
                                   ),
+                                  const Text('Order Date',
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold)),
                                   Text(
                                     order.formattedOrderDate,
                                     style: const TextStyle(fontSize: 16),
@@ -91,12 +98,12 @@ class CustomOrderListItems extends StatelessWidget {
                             ),
 
                             //icon
-                            IconButton(
-                                onPressed: () {},
-                                icon: const Icon(
-                                  Iconsax.arrow_right_34,
-                                  size: CustomSizes.iconsSm,
-                                ))
+                            // IconButton(
+                            //     onPressed: () {},
+                            //     icon: const Icon(
+                            //       Iconsax.arrow_right_34,
+                            //       size: CustomSizes.iconsSm,
+                            //     ))
                           ],
                         ),
                         const SizedBox(
@@ -122,10 +129,12 @@ class CustomOrderListItems extends StatelessWidget {
                                           CrossAxisAlignment.start,
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
-                                        const Text('Order',
-                                            style: TextStyle(fontSize: 16)),
+                                        const Text('Total',
+                                            style: TextStyle(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.bold)),
                                         Text(
-                                          order.id,
+                                          order.totalAmount.toString(),
                                           style: const TextStyle(fontSize: 16),
                                         )
                                       ],
@@ -134,12 +143,12 @@ class CustomOrderListItems extends StatelessWidget {
                                 ],
                               ),
                             ),
-                            Expanded(
+                            const Expanded(
                               child: Row(
                                 children: [
                                   //icon
-                                  const Icon(Iconsax.calendar),
-                                  const SizedBox(
+                                  Icon(Iconsax.calendar),
+                                  SizedBox(
                                     width: CustomSizes.spaceBtwnItems / 2,
                                   ),
 
@@ -150,13 +159,14 @@ class CustomOrderListItems extends StatelessWidget {
                                           CrossAxisAlignment.start,
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
-                                        const Text('Shipping date',
+                                        Text('Shipping date',
                                             style: TextStyle(
                                                 fontSize: 16,
                                                 fontWeight: FontWeight.bold)),
                                         Text(
-                                          order.formattedDeliveryDate,
-                                          style: const TextStyle(fontSize: 16),
+                                          //order.formattedDeliveryDate,
+                                          'Not Declared',
+                                          style: TextStyle(fontSize: 16),
                                         )
                                       ],
                                     ),

@@ -51,13 +51,13 @@ class OrderController extends GetxController {
         totalAmount: totalAmount,
         orderDate: DateTime.now(),
         items: cartController.cartItems.toList(),
-        paymentMethod: 'Cash on Delivery',
+        paymentMethod: checkoutController.selectedpaymentMethod.value.name,
         address: addressController.selectedAddress.value,
         deliveryDate: DateTime.now(),
       );
 
       //save the order to firestore
-      await orderRepository.saveOrder(order, userId);
+      await orderRepository.saveOrder(order);
 
       //update cart status
       cartController.clearCart();
