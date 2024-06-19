@@ -37,6 +37,8 @@ class OTPController extends GetxController {
       FullScreenLoader.stopLoading();
     } catch (e) {
       Loader.errorSnackBar(title: 'Oh snap!', message: e.toString());
+    } finally {
+      FullScreenLoader.stopLoading();
     }
   }
 }

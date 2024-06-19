@@ -29,7 +29,7 @@ class CartScreen extends StatelessWidget {
           animation: CustomLottie.lottie,
           actionText: 'Let\'s fill it',
           showAction: true,
-          onActionPressed: () => Get.off(() => const NavigationMenu()),
+          onActionPressed: () => Get.offAll(() => const NavigationMenu()),
         );
 
         if (cartController.cartItems.isEmpty) {

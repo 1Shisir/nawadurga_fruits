@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
-import 'package:navadurga_fruits/data/repositories/authentication/authentication_repository.dart';
+import 'package:navadurga_fruits/features/authentication/screens/login/login.dart';
 import 'package:navadurga_fruits/features/shop/models/cart_item_model.dart';
 import 'package:navadurga_fruits/features/shop/models/product_model.dart';
 import 'package:navadurga_fruits/utils/popups/loader.dart';
@@ -14,6 +15,7 @@ class CartController extends GetxController {
   RxInt productQuantityInCart = 0.obs;
   RxList<CartItemModel> cartItems = <CartItemModel>[].obs;
   final _db = FirebaseFirestore.instance;
+  final _auth = FirebaseAuth.instance;
 
   // CartController() {
   //   loadCartItems();
@@ -28,6 +30,13 @@ class CartController extends GetxController {
   //add items in cart
   void addToCart(ProductModel product) {
     try {
+      // Check if user is logged in
+      final userId = _auth.currentUser?.uid;
+      if (userId == null) {
+        _showLoginDialog();
+        return;
+      }
+
       //Quantity check
       if (productQuantityInCart.value < 1) {
         Loader.customToast(message: 'Select Quantity');
@@ -52,7 +61,7 @@ class CartController extends GetxController {
 
       Loader.customToast(message: 'Your product has been added to the cart');
     } catch (e) {
-      Loader.errorSnackBar(title: 'Oh snap', message: e.toString());
+      Loader.errorSnackBar(title: 'Oh snap!', message: e.toString());
     }
   }
 
@@ -70,6 +79,12 @@ class CartController extends GetxController {
   }
 
   void addOneToCart(CartItemModel item) {
+    // Check if user is logged in
+    final userId = _auth.currentUser?.uid;
+    if (userId == null) {
+      _showLoginDialog();
+      return;
+    }
     int index = cartItems
         .indexWhere((cartItem) => cartItem.productId == item.productId);
     if (index >= 0) {
@@ -135,10 +150,9 @@ class CartController extends GetxController {
   // Save cart items to Firestore
   Future<void> saveCartItemsToUserCollection() async {
     try {
-      final userId = AuthenticationRepository.instance.authUser.uid;
-
-      if (userId.isEmpty) {
-        throw 'Unable to find user information. Try again in a few minutes.';
+      final userId = _auth.currentUser?.uid;
+      if (userId == null) {
+        throw 'Unable to find user information. Try again in few minutes';
       }
 
       final userCartCollection =
@@ -157,7 +171,7 @@ class CartController extends GetxController {
 
       Loader.customToast(message: 'Cart saved successfully');
     } catch (e) {
-      Loader.errorSnackBar(title: 'Oh snap', message: e.toString());
+      Loader.errorSnackBar(title: 'Oh snap!', message: e.toString());
     }
   }
 
@@ -181,9 +195,8 @@ class CartController extends GetxController {
   // }
   Future<void> loadCartItems() async {
     try {
-      final userId = AuthenticationRepository.instance.authUser.uid;
-
-      if (userId.isEmpty) {
+      final userId = _auth.currentUser?.uid;
+      if (userId == null) {
         throw 'Unable to find user information. Try again in few minutes';
       }
 
@@ -235,5 +248,17 @@ class CartController extends GetxController {
     productQuantityInCart.value = 0;
     cartItems.clear();
     updateCart();
+  }
+
+  static void _showLoginDialog() {
+    Get.defaultDialog(
+      title: 'Login Required',
+      middleText: 'You need to be logged in to add items to the cart.',
+      onConfirm: () {
+        // Redirect to the login screen
+        Get.offAll(const LoginScreen());
+      },
+      onCancel: () => () => Get.back(),
+    );
   }
 }

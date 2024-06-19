@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:navadurga_fruits/common/widgets/appbar/appbar.dart';
@@ -10,6 +11,7 @@ import 'package:navadurga_fruits/features/shop/screens/cart/cart_screen.dart';
 import 'package:navadurga_fruits/features/shop/screens/orders/order.dart';
 import 'package:navadurga_fruits/utils/consts/sizes.dart';
 
+import '../../authentication/screens/login/login.dart';
 import '../controllers/user_controller.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -110,11 +112,29 @@ class ProfileScreen extends StatelessWidget {
                   textColor: Colors.red,
                   endIcon: false,
                   icon: Icons.delete_outline_outlined,
-                  onPress: () => controller.deleteAccountWarningPopup()),
+                  onPress: () {
+                    final userId = FirebaseAuth.instance.currentUser?.uid;
+                    if (userId == null) {
+                      _showDialog();
+                      return;
+                    }
+                    controller.deleteAccountWarningPopup();
+                  }),
             ],
           ),
         ),
       ),
+    );
+  }
+
+  static void _showDialog() {
+    Get.defaultDialog(
+      title: 'No Login found!',
+      middleText: 'Want to log in?',
+      onConfirm: () {
+        Get.offAll(const LoginScreen());
+      },
+      onCancel: () => () => Get.back(),
     );
   }
 }

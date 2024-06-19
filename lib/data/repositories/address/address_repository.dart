@@ -11,14 +11,14 @@ class AddressRepository extends GetxController {
 
   Future<List<AddressModel>> fetchUserAddress() async {
     try {
-      final userId = AuthenticationRepository.instance.authUser.uid;
-      if (userId.isEmpty) {
-        throw 'Unable to find user information.Try again in few minutes.';
+      final authUser = AuthenticationRepository.instance.authUser;
+      if (authUser.uid.isEmpty) {
+        throw 'Unable to find user information. Try again in few minutes';
       }
 
       final result = await _db
           .collection('Users')
-          .doc(userId)
+          .doc(authUser.uid)
           .collection('Addresses')
           .get();
       return result.docs

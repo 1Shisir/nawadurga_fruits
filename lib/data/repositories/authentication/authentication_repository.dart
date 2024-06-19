@@ -1,11 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:navadurga_fruits/features/authentication/screens/login/login.dart';
 import 'package:navadurga_fruits/navigation_menu.dart';
 import 'package:navadurga_fruits/utils/popups/loader.dart';
-
 import '../../../utils/exceptions/firebase_auth_exceptions.dart';
 import '../../../utils/exceptions/firebase_exceptions.dart';
 import '../../../utils/exceptions/format_exceptions.dart';
@@ -76,20 +74,21 @@ class AuthenticationRepository extends GetxController {
         await _auth.signInWithCredential(credential);
       },
       verificationFailed: (FirebaseAuthException e) {
-        if (e.code == 'session-expired') {
-          ScaffoldMessenger.of(Get.context!).showSnackBar(
-            const SnackBar(
-                content:
-                    Text('reCAPTCHA verification expired. Please try again.')),
-          );
-        } else if (e.code == 'invalid phone number') {
-          Loader.errorSnackBar(
-              title: 'Phone Number is Used', message: 'Use another number');
-        } else {
-          ScaffoldMessenger.of(Get.context!).showSnackBar(
-            SnackBar(content: Text('Verification failed: ${e.message}')),
-          );
-        }
+        // if (e.code == 'session-expired') {
+        //   ScaffoldMessenger.of(Get.context!).showSnackBar(
+        //     const SnackBar(
+        //         content:
+        //             Text('reCAPTCHA verification expired. Please try again.')),
+        //   );
+        // } else if (e.code == 'invalid phone number') {
+        //   Loader.errorSnackBar(
+        //       title: 'Phone Number is Used', message: 'Use another number');
+        // } else {
+        //   ScaffoldMessenger.of(Get.context!).showSnackBar(
+        //     SnackBar(content: Text('Verification failed: ${e.message}')),
+        //   );
+        // }
+        throw CustomFirebaseAuthException(e.code).message;
       },
       codeSent: (verificationId, resendToken) {
         this.verificationId.value = verificationId;

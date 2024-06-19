@@ -7,6 +7,7 @@ import 'package:navadurga_fruits/utils/consts/lottie.dart';
 import '../../../../../common/widgets/custom_shapes/containers/circular_container.dart';
 import '../../../../../navigation_menu.dart';
 import '../../../../../utils/consts/sizes.dart';
+import '../../../../../utils/helpers/cloud_helper_functions.dart';
 import '../../../../../utils/loaders/animation_loader.dart';
 
 class CustomOrderListItems extends StatelessWidget {
@@ -27,19 +28,19 @@ class CustomOrderListItems extends StatelessWidget {
             onActionPressed: () => Get.off(() => const NavigationMenu()),
           );
 
-          //helper function to handle loader,no record,or erreor
-          //final response = CloudHelperFunctions.checkMultiplerecordState(
-          //   snapshot: snapshot, nothingFound: emptyWidget);
+          // helper function to handle loader,no record,or erreor
+          final response = CloudHelperFunctions.checkMultiplerecordState(
+              snapshot: snapshot, nothingFound: emptyWidget);
 
-          // if (response != null) return response;
-          if (!snapshot.hasData) {
-            return emptyWidget;
-          }
-          if (snapshot.hasError) {
-            return const Center(
-              child: Text('Error!'),
-            );
-          }
+          if (response != null) return response;
+          // if (!snapshot.hasData) {
+          //   return emptyWidget;
+          // }
+          // if (snapshot.hasError) {
+          //   return const Center(
+          //     child: Text('Error!'),
+          //   );
+          // }
 
           //record found
           if (snapshot.hasData) {

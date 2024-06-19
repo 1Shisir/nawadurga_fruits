@@ -66,13 +66,13 @@ class OrderRepository extends GetxController {
 
   Future<List<OrderModel>> fetchUserOrders() async {
     try {
-      final userId = AuthenticationRepository.instance.authUser.uid;
-      if (userId.isEmpty) {
-        throw 'Unable to find the user Information.Try again later';
+      final authUser = AuthenticationRepository.instance.authUser;
+      if (authUser.uid.isEmpty) {
+        throw 'Unable to find user information. Try again in few minutes';
       }
       final result = await _db
           .collection('Orders')
-          .where('userId', isEqualTo: userId)
+          .where('userId', isEqualTo: authUser.uid)
           .get();
       return result.docs
           .map((snapshot) => OrderModel.fromSnapshot(snapshot))

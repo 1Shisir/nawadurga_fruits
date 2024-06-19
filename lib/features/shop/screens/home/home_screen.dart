@@ -33,6 +33,7 @@ class HomeScreen extends StatelessWidget {
           text: 'Search',
           icon: Icons.search,
         ),
+
         SizedBox(height: CustomSizes.spaceBtwnSections),
       ])),
       Padding(

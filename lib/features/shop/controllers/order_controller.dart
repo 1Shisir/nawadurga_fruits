@@ -67,9 +67,11 @@ class OrderController extends GetxController {
           title: 'Congratulation', message: 'Your order has been placed');
 
       //show success screen
-      Get.off(() => const NavigationMenu());
+      Get.offAll(() => const NavigationMenu());
     } catch (e) {
       Loader.errorSnackBar(title: 'Oh snap!', message: e.toString());
+    } finally {
+      FullScreenLoader.stopLoading();
     }
   }
 }
