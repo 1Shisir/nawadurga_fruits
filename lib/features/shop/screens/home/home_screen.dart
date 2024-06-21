@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:navadurga_fruits/common/widgets/shimmer/vertical_product_shimmer.dart';
 import 'package:navadurga_fruits/common/widgets/texts/section_heading.dart';
 import 'package:navadurga_fruits/features/shop/controllers/product_controller.dart';
+import 'package:navadurga_fruits/features/shop/screens/home/search_screen.dart';
 import '../../../../common/layouts/grid_layout.dart';
 import '../../../../common/widgets/custom_shapes/containers/primary_header_container.dart';
 import '../../../../common/widgets/custom_shapes/containers/search_container.dart';
@@ -20,11 +21,11 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
         body: SingleChildScrollView(
             child: Column(children: [
-      const PrimaryHeaderContainer(
+      PrimaryHeaderContainer(
           child: Column(children: [
         //appbar
-        CustomHomeAppBar(),
-        SizedBox(height: CustomSizes.spaceBtwnSections),
+        const CustomHomeAppBar(),
+        const SizedBox(height: CustomSizes.spaceBtwnSections),
 
         //search bar
         CustomSearchContainer(
@@ -32,9 +33,10 @@ class HomeScreen extends StatelessWidget {
           showBorder: true,
           text: 'Search',
           icon: Icons.search,
+          onTap: () => Get.to(() => const SearchPage()),
         ),
 
-        SizedBox(height: CustomSizes.spaceBtwnSections),
+        const SizedBox(height: CustomSizes.spaceBtwnSections),
       ])),
       Padding(
         padding: const EdgeInsets.all(CustomSizes.defaultSpace),

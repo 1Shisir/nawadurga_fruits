@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:navadurga_fruits/common/widgets/images/circular_image.dart';
+import 'package:navadurga_fruits/utils/consts/image_string.dart';
 
 import '../../../../../utils/consts/sizes.dart';
 
@@ -21,19 +23,21 @@ class LoginHeader extends StatelessWidget {
               color: const Color.fromARGB(255, 181, 226, 156),
             ),
           ),
-          Container(
-            width: 200,
-            height: 200,
-            decoration: const BoxDecoration(
-              shape: BoxShape.circle,
-            ),
-            child: ClipOval(
-              child: Image.network(
-                'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR2HBdnzEwiLu9EZonMRGtc4PoRlKmXpU2QnA&s',
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
+          const CustomCircularImage(
+              width: 200, height: 200, image: MyImage.appLogo)
+          // Container(
+          //   width: 200,
+          //   height: 200,
+          //   decoration: const BoxDecoration(
+          //     shape: BoxShape.circle,
+          //   ),
+          //   child: ClipOval(
+          //     child: Image.network(
+          //       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR2HBdnzEwiLu9EZonMRGtc4PoRlKmXpU2QnA&s',
+          //       fit: BoxFit.cover,
+          //     ),
+          //   ),
+          // ),
         ]),
         const SizedBox(
           height: CustomSizes.spaceBtwnSections,

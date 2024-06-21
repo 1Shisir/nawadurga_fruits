@@ -35,30 +35,32 @@ class ImageController extends GetxController {
     Get.to(
         fullscreenDialog: true,
         () => Dialog.fullscreen(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: CustomSizes.defaultSpace * 2,
-                        horizontal: CustomSizes.defaultSpace),
-                    child: CachedNetworkImage(imageUrl: image),
-                  ),
-                  const SizedBox(
-                    height: CustomSizes.spaceBtwnSections,
-                  ),
-                  Align(
-                    alignment: Alignment.bottomCenter,
-                    child: SizedBox(
-                      width: 150,
-                      child: OutlinedButton(
-                          onPressed: () => Get.back(),
-                          child: const Text('Close')),
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: CustomSizes.defaultSpace * 2,
+                          horizontal: CustomSizes.defaultSpace),
+                      child: CachedNetworkImage(imageUrl: image),
                     ),
-                  )
-                ],
+                    const SizedBox(
+                      height: CustomSizes.spaceBtwnSections,
+                    ),
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: SizedBox(
+                        width: 150,
+                        child: OutlinedButton(
+                            onPressed: () => Get.back(),
+                            child: const Text('Close')),
+                      ),
+                    )
+                  ],
+                ),
               ),
             ));
   }

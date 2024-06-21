@@ -34,6 +34,7 @@ class CustomProductCardVertical extends StatelessWidget {
         child: Column(children: [
           CustomCircularContainer(
             height: 180,
+            width: 180,
             radius: 16,
             padding: const EdgeInsets.all(CustomSizes.sm),
             backgroundColor: const Color.fromARGB(255, 196, 232, 197),
@@ -45,7 +46,7 @@ class CustomProductCardVertical extends StatelessWidget {
                   appplyImageRadius: true,
                   isNetworkImage: true,
                   borderRadius: CustomSizes.md,
-                  fit: BoxFit.contain,
+                  fit: BoxFit.cover,
                 ),
               ],
             ),

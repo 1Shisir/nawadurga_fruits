@@ -35,7 +35,7 @@ class BottomAddToCart extends StatelessWidget {
               children: [
                 CircularIcon(
                   iCon: Iconsax.minus,
-                  backgroundColor: Colors.grey,
+                  backgroundColor: const Color.fromARGB(255, 245, 243, 243),
                   width: 40,
                   height: 40,
                   color: Colors.white,
@@ -69,7 +69,10 @@ class BottomAddToCart extends StatelessWidget {
                   backgroundColor: Colors.black,
                   side: const BorderSide(color: Colors.black),
                 ),
-                child: const Text('Add to cart')),
+                child: const Text(
+                  'Add to cart',
+                  style: TextStyle(color: Colors.white),
+                )),
           ],
         ),
       ),

@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
-import 'package:navadurga_fruits/data/repositories/authentication/authentication_repository.dart';
 import '../../../features/shop/models/order_model.dart';
 
 class OrderRepository extends GetxController {
@@ -66,13 +66,13 @@ class OrderRepository extends GetxController {
 
   Future<List<OrderModel>> fetchUserOrders() async {
     try {
-      final authUser = AuthenticationRepository.instance.authUser;
-      if (authUser.uid.isEmpty) {
+      final authUser = FirebaseAuth.instance.currentUser?.uid;
+      if (authUser == null) {
         throw 'Unable to find user information. Try again in few minutes';
       }
       final result = await _db
           .collection('Orders')
-          .where('userId', isEqualTo: authUser.uid)
+          .where('userId', isEqualTo: authUser)
           .get();
       return result.docs
           .map((snapshot) => OrderModel.fromSnapshot(snapshot))
