@@ -10,6 +10,10 @@ class CustomSearchController extends GetxController {
   var isLoading = false.obs;
 
   void searchProducts(String query) async {
+    if (query.isEmpty) {
+      products.value = [];
+      return;
+    }
     isLoading.value = true;
     try {
       final snapshot = await FirebaseFirestore.instance
