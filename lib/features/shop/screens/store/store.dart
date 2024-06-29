@@ -21,7 +21,7 @@ class StoreScreen extends StatelessWidget {
           'Store',
           style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
         ),
-        showbackArrow: true,
+        showbackArrow: false,
         actions: [CustomCartCounterIcon()],
       ),
       body: SingleChildScrollView(

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:get/get.dart';
-import 'package:navadurga_fruits/features/authentication/controllers/otp_controller.dart';
+import 'package:navadurga_fruits/features/authentication/controllers/login_controller.dart';
 import 'package:navadurga_fruits/utils/consts/sizes.dart';
 
 class OtpVerificationScreen extends StatelessWidget {
@@ -10,16 +10,16 @@ class OtpVerificationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var otp = "";
-    final controller = Get.put(OTPController());
+    final controller = Get.put(LoginController());
     return Scaffold(
       appBar: AppBar(
         title: const Text(
           'Verify',
           style: TextStyle(fontWeight: FontWeight.bold, color: Colors.green),
         ),
-        leading: IconButton(
-            onPressed: () => Get.back(),
-            icon: const Icon(Icons.arrow_back_ios)),
+        // leading: IconButton(
+        //     onPressed: () => Get.back(),
+        //     icon: const Icon(Icons.arrow_back_ios)),
       ),
       body: SingleChildScrollView(
         child: Padding(

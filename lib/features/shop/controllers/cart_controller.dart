@@ -196,16 +196,13 @@ class CartController extends GetxController {
   Future<void> loadCartItems() async {
     try {
       final userId = _auth.currentUser?.uid;
-      if (userId == null) {
-        throw 'Unable to find user information. Try again in few minutes';
-      }
+      if (userId == null) return;
 
       final result =
           await _db.collection('Users').doc(userId).collection('Carts').get();
 
-      // Clear the existing items
+      // // Clear the existing items
       cartItems.clear();
-
       // Add the fetched items to the cartItems list
       cartItems.addAll(
         result.docs

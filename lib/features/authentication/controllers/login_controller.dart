@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:navadurga_fruits/data/repositories/authentication/authentication_repository.dart';
-import 'package:navadurga_fruits/features/authentication/screens/otp_verification/otp_verification_screen.dart';
 import 'package:navadurga_fruits/utils/consts/lottie.dart';
 import 'package:navadurga_fruits/utils/http/network_manager.dart';
-
+import '../../../data/repositories/user/user_repository.dart';
 import '../../../utils/popups/full_screen_loader.dart';
 import '../../../utils/popups/loader.dart';
+import '../../personalization/models/user_model.dart';
 
 class LoginController extends GetxController {
   static LoginController get instance => Get.find();
@@ -15,6 +15,7 @@ class LoginController extends GetxController {
   final username = TextEditingController();
   GlobalKey<FormState> loginFormKey = GlobalKey<FormState>();
   final authRepository = AuthenticationRepository.instance;
+  final userRepo = Get.put(UserRepository());
 
   Future<void> signup() async {
     try {
@@ -37,18 +38,6 @@ class LoginController extends GetxController {
       //get number from user and pass it to authentication
       await authRepository.phoneAuthentication(phoneNo.text.trim());
 
-      // final userId = authRepository.verifyOTP(otp);
-
-      // ///Save Authenticated user data in the direbase firestore
-      // final newUser = UserModel(
-      //   id: '',
-      //   name: username.text.trim(),
-      //   phoneNo: phoneNo.text.trim(),
-      //   profilePicture: '',
-      // );
-
-      // await userRepository.saveUserRecord(newUser);
-
       //remove loader
       FullScreenLoader.stopLoading();
 
@@ -59,13 +48,43 @@ class LoginController extends GetxController {
           message: 'Your account has been created, verify OTP to continue.');
 
       ///move to verify otp
-      Get.to(() => const OtpVerificationScreen());
+      authRepository.screenRedirect();
+
+      // Navigator.of(Get.context!).pop();
     } catch (e) {
       ///remove loader
       FullScreenLoader.stopLoading();
 
       ///show some generic error to the user
       Loader.errorSnackBar(title: 'oh snap!', message: e.toString());
+    }
+  }
+
+  void verifyOTP(String otp) async {
+    try {
+      //show loaders
+      FullScreenLoader.openLoadingDialog('Processing', CustomLottie.lottie);
+
+      var isVerified = await AuthenticationRepository.instance.verifyOTP(otp);
+      //isVerified ? Get.offAll(const NavigationMenu()) : const LoginScreen();
+
+      if (isVerified) {
+        final newUser = UserModel(
+          id: authRepository.authUser.uid,
+          name: username.text.trim(),
+          phoneNo: phoneNo.text.trim(),
+          profilePicture: '',
+        );
+        //Save Authenticated user data in the direbase firestore
+        await userRepo.saveUserRecord(newUser);
+
+        authRepository.screenRedirect();
+      } else {
+        authRepository.screenRedirect();
+      }
+    } catch (e) {
+      FullScreenLoader.stopLoading();
+      Loader.errorSnackBar(title: 'Oh snap!', message: e.toString());
     }
   }
 }

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:navadurga_fruits/utils/consts/lottie.dart';
 import '../../../../navigation_menu.dart';
@@ -62,12 +63,16 @@ class OrderController extends GetxController {
       //update cart status
       cartController.clearCart();
 
+      FullScreenLoader.stopLoading();
+
       //success message
       Loader.successSnackBar(
           title: 'Congratulation', message: 'Your order has been placed');
 
       //show success screen
-      Get.offAll(() => const NavigationMenu());
+      Get.to(() => const NavigationMenu());
+
+      Navigator.of(Get.context!).pop();
     } catch (e) {
       Loader.errorSnackBar(title: 'Oh snap!', message: e.toString());
     } finally {

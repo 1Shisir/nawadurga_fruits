@@ -1,7 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:navadurga_fruits/features/authentication/screens/login/login.dart';
+import 'package:navadurga_fruits/features/authentication/screens/otp_verification/otp_verification_screen.dart';
 import 'package:navadurga_fruits/navigation_menu.dart';
 import 'package:navadurga_fruits/utils/popups/loader.dart';
 import '../../../utils/exceptions/firebase_auth_exceptions.dart';
@@ -31,22 +33,23 @@ class AuthenticationRepository extends GetxController {
 
   //screen redirect
 
-  // screenRedirect() async {
-  //   final user = _auth.currentUser;
-  //   if (user != null) {
-  //     //if the user is verified
-  //     //initialize user specific bucket
-  //     //await CustomLocalStorage.init(user.uid);
+  screenRedirect() async {
+    final user = _auth.currentUser;
+    if (user != null) {
+      //if the user is verified
+      //initialize user specific bucket
+      //await CustomLocalStorage.init(user.uid);
 
-  //     //if the user is verified , nacigate to the main navigation menu
-  //     Get.offAll(() => const NavigationMenu());
-  //   } else {
-  //     Get.to(() => const LoginScreen());
-  //   }
-  // }
+      //if the user is verified , nacigate to the main navigation menu
+      Get.offAll(() => const NavigationMenu());
+    } else {
+      Get.to(() => const OtpVerificationScreen());
+    }
+  }
+
   _setInitialScreen(User? user) {
     if (user == null) {
-      Get.offAll(() => const LoginScreen());
+      Get.to(() => const LoginScreen());
     } else {
       if (user.uid.isEmpty) {
         Loader.warningSnackBar(
@@ -74,21 +77,20 @@ class AuthenticationRepository extends GetxController {
         await _auth.signInWithCredential(credential);
       },
       verificationFailed: (FirebaseAuthException e) {
-        // if (e.code == 'session-expired') {
-        //   ScaffoldMessenger.of(Get.context!).showSnackBar(
-        //     const SnackBar(
-        //         content:
-        //             Text('reCAPTCHA verification expired. Please try again.')),
-        //   );
-        // } else if (e.code == 'invalid phone number') {
-        //   Loader.errorSnackBar(
-        //       title: 'Phone Number is Used', message: 'Use another number');
-        // } else {
-        //   ScaffoldMessenger.of(Get.context!).showSnackBar(
-        //     SnackBar(content: Text('Verification failed: ${e.message}')),
-        //   );
-        // }
-        throw CustomFirebaseAuthException(e.code).message;
+        if (e.code == 'session-expired') {
+          ScaffoldMessenger.of(Get.context!).showSnackBar(
+            const SnackBar(
+                content:
+                    Text('reCAPTCHA verification expired. Please try again.')),
+          );
+        } else if (e.code == 'invalid phone number') {
+          Loader.errorSnackBar(
+              title: 'Phone Number is Used', message: 'Use another number');
+        } else {
+          ScaffoldMessenger.of(Get.context!).showSnackBar(
+            SnackBar(content: Text('Verification failed: ${e.message}')),
+          );
+        }
       },
       codeSent: (verificationId, resendToken) {
         this.verificationId.value = verificationId;
@@ -117,7 +119,6 @@ class AuthenticationRepository extends GetxController {
   Future<void> deleteAccount() async {
     try {
       await UserRepository.instance.removeUserRecord(_auth.currentUser!.uid);
-      await _auth.currentUser?.delete();
       await signOut();
     } on FirebaseAuthException catch (e) {
       throw CustomFirebaseAuthException(e.code).message;
