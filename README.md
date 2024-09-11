@@ -18,7 +18,7 @@ State Management: Getx
 Installation Instructions 🛠️
 To run this project locally, follow these steps:
 Clone the repository:
-git clone https://github.com/yourusername/nawadurgafruits.git
+git clone https://github.com/1Shisir/nawadurga_fruits.git
 
 Navigate to the project directory:
 cd nawadurgafruits
@@ -41,21 +41,6 @@ Create a new project called "NawadurgaFruits".
 Set up Authentication (Email/Password or Google Sign-In).
 Set up Cloud Firestore to store product listings and orders.
 Download the Firebase configuration files (google-services.json) and add them to the appropriate directory in your Flutter project.
-
-
-Project Structure 📂
-nawadurgafruits/
-│
-├── android/                     # Android-specific files
-├── ios/                         # iOS-specific files
-├── lib/                         # Main Flutter code
-│   ├── models/                  # Data models for products, orders, users
-│   ├── screens/                 # Different screens in the app
-│   ├── services/                # Firebase services and authentication logic
-│   └── widgets/                 # Reusable UI components
-├── assets/                      # Images, icons, and other assets
-├── pubspec.yaml                 # Project dependencies and metadata
-└── README.md                    # Project documentation
 
 
 Future Enhancements 🚀
